@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
+import 'package:restaurant_management_mobile/src/widgets/loadingButton.dart';
 
 class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -17,19 +18,16 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(color);
-    return Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(30.0),
-        color: color != null ? color : Theme.of(context).primaryColor,
-        child: MaterialButton(
-          minWidth: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-          onPressed: onPressed,
-          child: Text(
-            text,
-            style: TextStyle(fontSize: 20, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-        ));
+    return LoadingButton(
+      height: 50,
+      width: MediaQuery.of(context).size.width,
+      widthTurnOnIcon: 120,
+      onCompleted: onPressed,
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 20, color: Colors.white),
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 }

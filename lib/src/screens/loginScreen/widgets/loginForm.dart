@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:restaurant_management_mobile/src/screens/dishesTodayScreen/index.dart';
+import 'package:restaurant_management_mobile/src/widgets/loadingButton.dart';
 import 'loginButton.dart';
 import 'loginLogo.dart';
 import 'loginTextInput.dart';
@@ -95,7 +96,7 @@ class LoginFormState extends State<LoginForm> {
                             decoration: TextDecoration.underline),
                       ),
                       onTap: onTap,
-                    )
+                    ),
                   ],
                 ),
               ),

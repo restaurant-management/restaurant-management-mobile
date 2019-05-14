@@ -22,35 +22,38 @@ class LoginScreenState extends State<LoginScreen> {
       });
     });
     return Scaffold(
-        body: Stack(children: <Widget>[
-      ImageBackground(),
-      PageView.builder(
-        controller: controller,
-        itemBuilder: (context, position) {
-          if (position == 0) {
-            return Transform(
-                transform: Matrix4.identity()
-                  ..rotateY(currentPageValue - position)
-                  ..rotateZ(currentPageValue - position),
-                child: LoginForm(onTap: () {
-                  controller.animateToPage(1,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.decelerate);
-                }));
-          } else {
-            return Transform(
-                transform: Matrix4.identity()
-                  ..rotateY(currentPageValue - position)
-                  ..rotateZ(currentPageValue - position),
-                child: SignUpForm(onTap: () {
-                  controller.animateToPage(0,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.decelerate);
-                }));
-          }
-        },
-        itemCount: 2,
-      )
-    ]));
+      body: Stack(
+        children: <Widget>[
+          ImageBackground(),
+          PageView.builder(
+            controller: controller,
+            itemBuilder: (context, position) {
+              if (position == 0) {
+                return Transform(
+                    transform: Matrix4.identity()
+                      ..rotateY(currentPageValue - position)
+                      ..rotateZ(currentPageValue - position),
+                    child: LoginForm(onTap: () {
+                      controller.animateToPage(1,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.decelerate);
+                    }));
+              } else {
+                return Transform(
+                    transform: Matrix4.identity()
+                      ..rotateY(currentPageValue - position)
+                      ..rotateZ(currentPageValue - position),
+                    child: SignUpForm(onTap: () {
+                      controller.animateToPage(0,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.decelerate);
+                    }));
+              }
+            },
+            itemCount: 2,
+          ),
+        ],
+      ),
+    );
   }
 }
