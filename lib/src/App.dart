@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'screens/loginScreen/index.dart';
+
+import 'screens/splashScreen/splashScreen.dart';
 
 class App extends StatelessWidget {
   @override
@@ -32,7 +33,7 @@ class App extends StatelessWidget {
               body1: TextStyle(color: Colors.black),
               headline:
                   TextStyle(color: Colors.black))),
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }

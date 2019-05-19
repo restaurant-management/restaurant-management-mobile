@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:restaurant_management_mobile/src/widgets/AppBars/mainAppBar.dart';
-import 'package:restaurant_management_mobile/src/widgets/cartButton/secondaryCartButton.dart';
-import 'package:restaurant_management_mobile/src/widgets/drawerScaffold.dart';
+import '../../widgets/AppBars/mainAppBar.dart';
+import '../../widgets/cartButton/secondaryCartButton.dart';
+import '../../widgets/drawerScaffold.dart';
 
 import 'widgets/dishesList.dart';
 

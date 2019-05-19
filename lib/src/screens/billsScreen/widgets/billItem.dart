@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
-import 'package:restaurant_management_mobile/src/screens/cartScreen/index.dart';
+import '../../cartScreen/cartScreen.dart';
 
 class BillItem extends StatefulWidget {
   @override

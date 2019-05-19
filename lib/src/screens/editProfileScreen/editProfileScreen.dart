@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
-import 'package:restaurant_management_mobile/src/widgets/AppBars/backAppBar.dart';
-import 'package:restaurant_management_mobile/src/widgets/drawerScaffold.dart';
 import 'package:intl/intl.dart';
-import 'dart:async';
+
+import '../../widgets/AppBars/backAppBar.dart';
+import '../../widgets/drawerScaffold.dart';
 
 class EditProfileScreen extends StatefulWidget {
   @override

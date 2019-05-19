@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_images_slider/flutter_images_slider.dart';
-import 'widgets/addCartButton.dart';
-import 'package:restaurant_management_mobile/src/widgets/AppBars/backAppBar.dart';
-import 'package:restaurant_management_mobile/src/widgets/drawerScaffold.dart';
 
+import '../../widgets/AppBars/backAppBar.dart';
+import '../../widgets/drawerScaffold.dart';
+import 'widgets/addCartButton.dart';
 import 'widgets/expanedDetail.dart';
 
 class DishDetailScreen extends StatelessWidget {

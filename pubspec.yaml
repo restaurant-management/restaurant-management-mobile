@@ -9,12 +9,16 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
-  rxdart: ^0.22.0
   http: ^0.12.0+2
   flutter_images_slider: ^0.0.2
   flutter_vector_icons: ^0.1.0
   gradient_widgets: ^0.4.1
   intl: ^0.15.8
+  shared_preferences: ^0.5.2
+  equatable: ^0.1.6
+  bloc: ^0.13.0
+  rxdart: ^0.22.0
+  flutter_bloc: ^0.13.0
 
 dev_dependencies:
   flutter_test:

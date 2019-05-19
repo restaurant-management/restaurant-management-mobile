@@ -3,9 +3,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:restaurant_management_mobile/src/screens/dishesTodayScreen/widgets/dishesList.dart';
+
+import '../../utils/outlineText.dart';
+import '../dishesTodayScreen/widgets/dishesList.dart';
+import '../editProfileScreen/editProfileScreen.dart';
 import 'widgets/profileTab.dart';
-import 'package:restaurant_management_mobile/src/utils/outlineText.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -44,7 +46,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                   ),
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) {}));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProfileScreen()));
                   },
                 ),
               ],

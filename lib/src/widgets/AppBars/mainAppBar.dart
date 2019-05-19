@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:restaurant_management_mobile/src/screens/searchScreen/index.dart';
+
+import '../../screens/searchScreen/searchScreen.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   MainAppBar({Key key})
@@ -25,10 +26,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         onPressed: () => Scaffold.of(context).openEndDrawer(),
       ),
-      title: Text(
-        'Năm Nhỏ',
-        style:
-            TextStyle(color: primaryColor, fontSize: 40, fontFamily: 'Rukola'),
+      title: Hero(
+        tag: 'HeroLogoImage',
+        child: Text(
+          'Năm Nhỏ',
+          style:
+              TextStyle(color: primaryColor, fontSize: 40, fontFamily: 'Rukola'),
+        ),
       ),
       actions: <Widget>[
         IconButton(

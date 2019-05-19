@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_mobile/src/screens/dishDetailScreen/index.dart';
+import '../../dishDetailScreen/dishDetailScreen.dart';
 
 class DishItemCard extends StatelessWidget {
   final String imageUrl;

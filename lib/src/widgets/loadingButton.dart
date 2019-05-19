@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class LoadingButton extends StatefulWidget {
-  final VoidCallback onCompleted;
+  final VoidCallback onPressed;
   final Widget child;
   final double width;
   final double height;
@@ -10,9 +10,9 @@ class LoadingButton extends StatefulWidget {
   final double loadingIconSize;
   final double widthTurnOnIcon;
 
-  const LoadingButton(
+  LoadingButton(
       {Key key,
-      this.onCompleted,
+      this.onPressed,
       this.child,
       this.width,
       this.height,
@@ -23,35 +23,37 @@ class LoadingButton extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return LoadingButtonState(onCompleted, child, width, height, color,
-        loadingIconSize, widthTurnOnIcon);
+    return LoadingButtonState();
   }
 }
 
 class LoadingButtonState extends State<LoadingButton>
     with SingleTickerProviderStateMixin {
-  final VoidCallback onCompleted;
-  final Widget title;
-  final double width;
-  final double height;
-  final Color color;
-  final double loadingIconSize;
-  final double widthTurnOnIcon;
+  VoidCallback get onPressed => widget.onPressed;
+
+  Widget get title => widget.child;
+
+  double get width => widget.width;
+
+  double get height => widget.height;
+
+  Color get color => widget.color;
+
+  double get loadingIconSize => widget.loadingIconSize;
+
+  double get widthTurnOnIcon => widget.widthTurnOnIcon;
 
   AnimationController _buttonController;
   Animation _buttonSqueezeAnimation;
-
-  LoadingButtonState(this.onCompleted, this.title, this.width, this.height,
-      this.color, this.loadingIconSize, this.widthTurnOnIcon);
 
   @override
   void initState() {
     super.initState();
     _buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 3000), vsync: this);
-    _buttonController.addStatusListener((state) {
-      if (state == AnimationStatus.completed && onCompleted != null) {
-        onCompleted();
+        duration: new Duration(milliseconds: 1000), vsync: this)
+    ..addStatusListener((state){
+      if(state == AnimationStatus.completed){
+        onPressed?.call();
       }
     });
     _buttonSqueezeAnimation = new Tween(
@@ -77,7 +79,6 @@ class LoadingButtonState extends State<LoadingButton>
   Future<Null> _playAnimation() async {
     try {
       await _buttonController.forward();
-      await _buttonController.reverse();
     } on TickerCanceled {}
   }
 
@@ -114,5 +115,9 @@ class LoadingButtonState extends State<LoadingButton>
                             new AlwaysStoppedAnimation<Color>(Colors.white),
                       ))),
         ));
+  }
+
+  loadingComplete(){
+    _buttonController.reverse();
   }
 }

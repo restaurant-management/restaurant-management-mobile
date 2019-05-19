@@ -1,14 +1,19 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/animation.dart';
 
-class LoginLogo extends StatefulWidget {
+class AnimationLogo extends StatefulWidget {
+  final VoidCallback onAnimationCompleted;
+  final int animationTime;
+
+  const AnimationLogo({Key key, this.onAnimationCompleted, this.animationTime = 2000}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return LoginLogoState();
+    return AnimationLogoState();
   }
 }
 
-class LoginLogoState extends State<LoginLogo>
+class AnimationLogoState extends State<AnimationLogo>
     with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
@@ -17,8 +22,13 @@ class LoginLogoState extends State<LoginLogo>
   void initState() {
     super.initState();
     controller =
-        AnimationController(duration: Duration(seconds: 2), vsync: this);
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+        AnimationController(duration: Duration(milliseconds: widget.animationTime), vsync: this);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn)
+    ..addStatusListener((state){
+      if(state == AnimationStatus.completed){
+        widget.onAnimationCompleted?.call();
+      }
+    });
     _playAnimation();
   }
 
@@ -41,7 +51,7 @@ class LoginLogoState extends State<LoginLogo>
 
 class AnimatedLogo extends AnimatedWidget {
   static final _opacityTween = Tween<double>(begin: 0.1, end: 1);
-  static final _sizeTween = Tween<double>(begin: 0, end: 200);
+  static final _sizeTween = Tween<double>(begin: 0, end: 150);
 
   AnimatedLogo({Key key, Animation<double> animation})
       : super(key: key, listenable: animation);

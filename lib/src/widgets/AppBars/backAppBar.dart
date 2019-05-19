@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:restaurant_management_mobile/src/widgets/cartButton/primaryCartButton.dart';
+
+import '../cartButton/primaryCartButton.dart';
 
 class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showShoppingCart;

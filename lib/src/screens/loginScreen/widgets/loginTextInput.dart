@@ -6,12 +6,23 @@ class LoginTextInput extends StatelessWidget {
   final bool obscure;
   final IconData icon;
   final FormFieldValidator<String> validator;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final VoidCallback onEditingComplete;
 
-  LoginTextInput({this.hint, this.obscure, this.icon, this.validator});
+  LoginTextInput({this.hint,
+    this.obscure,
+    this.icon,
+    this.validator,
+    this.controller,
+    this.keyboardType, this.onEditingComplete});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onEditingComplete: onEditingComplete,
+      keyboardType: keyboardType,
+      controller: controller,
       cursorColor: Colors.white,
       obscureText: obscure,
       validator: validator,
