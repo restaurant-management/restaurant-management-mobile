@@ -42,9 +42,10 @@ class DishItemCard extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
                     topLeft: Radius.circular(20)),
-                child: Image.network(
-                  imageUrl,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/placeholder.png',
                   fit: BoxFit.cover,
+                  image: imageUrl ?? '',
                   width: contextSize.width / 2.2,
                   height: contextSize.width / 2,
                 ),

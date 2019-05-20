@@ -3,6 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_management_mobile/src/blocs/profileScreenBloc/bloc.dart';
+import 'package:restaurant_management_mobile/src/blocs/profileScreenBloc/state.dart';
 
 import '../../utils/outlineText.dart';
 import '../dishesTodayScreen/widgets/dishesList.dart';
@@ -10,6 +13,12 @@ import '../editProfileScreen/editProfileScreen.dart';
 import 'widgets/profileTab.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final ProfileScreenBloc profileScreenBloc;
+
+  const ProfileScreen({Key key, this.profileScreenBloc})
+      : assert(profileScreenBloc != null),
+        super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return ProfileScreenState();
@@ -18,6 +27,8 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen> {
   ScrollController scrollController;
+
+  ProfileScreenBloc get profileScreenBloc => widget.profileScreenBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +77,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 background: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(
-                          'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Sergio_Ag%C3%BCero_2018.jpg/220px-Sergio_Ag%C3%BCero_2018.jpg'),
+                      image: AssetImage('assets/images/login-background.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -103,7 +113,10 @@ class ProfileScreenState extends State<ProfileScreen> {
             SliverFillRemaining(
               child: TabBarView(
                 children: <Widget>[
-                  ProfileTab(),
+                  BlocProvider(
+                    child: ProfileTab(),
+                    bloc: profileScreenBloc,
+                  ),
                   DishesList(),
                 ],
               ),
@@ -116,12 +129,25 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildAvatar() {
     Widget avatarWidget = Container(
-      child: Hero(
-        tag: "avatarHero",
-        child: CircleAvatar(
-          backgroundImage: NetworkImage(
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Sergio_Ag%C3%BCero_2018.jpg/220px-Sergio_Ag%C3%BCero_2018.jpg'),
-        ),
+      child: BlocBuilder(
+        bloc: profileScreenBloc,
+        builder: (BuildContext context, state) {
+          String avatarUrl;
+          if (state is ProfileScreenFetched ||
+              state is ProfileScreenInitialize) {
+            avatarUrl = state.currentUser.avatar;
+          }
+          return Hero(
+            tag: "avatarHero",
+            child: ClipOval(
+              child: FadeInImage.assetNetwork(
+                placeholder: 'assets/images/default-avatar.jpg',
+                fit: BoxFit.fill,
+                image: avatarUrl ?? '',
+              ),
+            ),
+          );
+        },
       ),
       width: 150.0,
       height: 150.0,

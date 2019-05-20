@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../blocs/registerBloc/bloc.dart';
 import '../../../blocs/registerBloc/event.dart';
 import '../../../blocs/registerBloc/state.dart';
+import '../../../utils/validateEmail.dart';
 import '../../../widgets/loadingButton.dart';
 import 'loginButton.dart';
 import 'loginTextInput.dart';
@@ -125,7 +126,8 @@ class SignUpFormState extends State<SignUpForm> {
                           if (value.isEmpty)
                             return 'Vui lòng nhập email của bạn!';
 
-                          return validateEmail(value);
+                          if(!validateEmail(value))
+                            return 'Email chưa đúng';
                         },
                       ),
                       Divider(color: Colors.transparent),
@@ -165,7 +167,8 @@ class SignUpFormState extends State<SignUpForm> {
                               email: _emailController.text,
                               password: _passwordController.text,
                             ));
-                          } else _signUpKey.currentState?.loadingComplete();
+                          } else
+                            _signUpKey.currentState?.loadingComplete();
                         },
                       ),
                       Divider(
@@ -205,15 +208,5 @@ class SignUpFormState extends State<SignUpForm> {
       });
     }
     return result;
-  }
-
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Email chưa đúng';
-    else
-      return null;
   }
 }

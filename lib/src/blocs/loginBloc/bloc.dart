@@ -10,7 +10,7 @@ import 'event.dart';
 import 'state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final UserRepository _userRepository = UserRepository();
+  final UserRepository _userRepository = UserRepository.instance;
   final AuthenticationBloc authenticationBloc;
 
   LoginBloc({@required this.authenticationBloc})
@@ -27,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         final token = await _userRepository.authenticate(
             usernameOrEmail: event.usernameOrEmail, password: event.password);
-        authenticationBloc.dispatch(LoggedIn(token: token));
+        authenticationBloc.dispatch(LoggedIn(event.usernameOrEmail, token));
       } catch (e) {
         yield LoginFailure(error: e.toString());
       }

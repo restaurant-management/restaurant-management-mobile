@@ -5,7 +5,7 @@ import 'event.dart';
 import 'state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final UserRepository _userRepository = UserRepository();
+  final UserRepository _userRepository = UserRepository.instance;
 
   @override
   RegisterState get initialState => RegisterInitial();
