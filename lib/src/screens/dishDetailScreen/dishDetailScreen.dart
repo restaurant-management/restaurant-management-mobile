@@ -4,16 +4,41 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_images_slider/flutter_images_slider.dart';
 
+import '../../models/dailyDish.dart';
+import '../../models/dishModal.dart';
 import '../../widgets/AppBars/backAppBar.dart';
 import '../../widgets/drawerScaffold.dart';
 import 'widgets/addCartButton.dart';
 import 'widgets/expanedDetail.dart';
 
-class DishDetailScreen extends StatelessWidget {
-  final List<String> imgList = [
-    'https://znews-photo.zadn.vn/w660/Uploaded/jaroin/2016_08_25/qnn.jpg',
-    'https://www.webtretho.com/contentreview/wp-content/uploads/sites/53/2018/04/cach-lam-mon-ngon-dai-tiec-cuoi-tuan-nhanh-chong-va-cuc-de-dang-01.jpg',
-  ];
+class DishDetailScreen extends StatefulWidget {
+  final DishModal dishModal;
+  final DailyDish dailyDish;
+
+  const DishDetailScreen({Key key, this.dishModal, this.dailyDish})
+      : assert((dishModal == null || dailyDish == null) &&
+            (dishModal != null || dailyDish != null)),
+        super(key: key);
+
+  @override
+  _DishDetailScreenState createState() => _DishDetailScreenState();
+}
+
+class _DishDetailScreenState extends State<DishDetailScreen> {
+  int _discountPrice;
+  DishModal _dish;
+
+  @override
+  void initState() {
+    if (widget.dailyDish != null) {
+      _dish = widget.dailyDish.dish;
+      _discountPrice = widget.dailyDish.price;
+    } else {
+      _dish = widget.dishModal;
+      _discountPrice = 0;
+    }
+    super.initState();
+  }
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -34,7 +59,7 @@ class DishDetailScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ImagesSlider(
-              items: map<Widget>(imgList, (index, i) {
+              items: map<Widget>(_dish.images, (index, i) {
                 return Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
@@ -62,7 +87,7 @@ class DishDetailScreen extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
-                      'Gà hấp chanh lá chuối các kiểu con đà điểu, hết sảy con nhà bà bảy',
+                      _dish.name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                       style: Theme.of(context).textTheme.headline,
@@ -82,17 +107,21 @@ class DishDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: <Widget>[
+                  _discountPrice > 0
+                      ? Text(
+                          '${_dish.defaultPrice} VNĐ',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              decoration: TextDecoration.lineThrough),
+                        )
+                      : Container(),
+                  _discountPrice > 0
+                      ? SizedBox(
+                          width: 20,
+                        )
+                      : Container(),
                   Text(
-                    '1.250.000 VNĐ',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        decoration: TextDecoration.lineThrough),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    '1.000.000 VNĐ',
+                    '${_discountPrice > 0 ? _discountPrice : _dish.defaultPrice} VNĐ',
                     style: TextStyle(
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
@@ -111,10 +140,10 @@ class DishDetailScreen extends StatelessWidget {
             ExpandedDetail(
               title: 'Chi tiết',
               child: Text(
-                'When a user starts a conversation with your business, you may want to identify him or her as a customer who already has an account with your business. To help with this, we have created a secured protocol to link and unlink the Messenger user identity with your business user identity.',
+                _dish.description,
                 style: TextStyle(color: Colors.black),
               ),
-              expand: false,
+              expand: true,
             ),
             SizedBox(
               height: 10,
@@ -126,7 +155,7 @@ class DishDetailScreen extends StatelessWidget {
             ExpandedDetail(
               title: 'Nhận xét',
               child: Text(
-                'When a user starts a conversation with your business, you may want to identify him or her as a customer who already has an account with your business. To help with this, we have created a secured protocol to link and unlink the Messenger user identity with your business user identity.',
+                'Chức năng đang phát triển',
                 style: TextStyle(color: Colors.black),
               ),
               expand: false,

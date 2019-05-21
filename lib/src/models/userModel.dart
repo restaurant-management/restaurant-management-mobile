@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'permission.dart';
+import 'package:restaurant_management_mobile/src/enums/permission.dart';
 
 class UserModel extends Equatable {
   String _uuid;
@@ -39,7 +39,7 @@ class UserModel extends Equatable {
     _email = parsedJson['email'];
     _birthday = parsedJson['birthday'];
     List<String> stringPermissions = parsedJson['permissions'];
-    _permissions = listPermissionFromListString(stringPermissions);
+    _permissions = Permission.fromListString(stringPermissions);
     _point = parsedJson['point'];
     _role = parsedJson['role'];
   }

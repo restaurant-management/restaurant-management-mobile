@@ -1,4 +1,4 @@
-import 'permission.dart';
+import 'package:restaurant_management_mobile/src/enums/permission.dart';
 
 class RoleModel {
   String _slug;
@@ -16,6 +16,6 @@ class RoleModel {
     _name = parsedJson['name'];
     _description = parsedJson['description'];
     List<String> stringPermissions = parsedJson['permissions'];
-    _permissions = listPermissionFromListString(stringPermissions);
+    _permissions = Permission.fromListString(stringPermissions);
   }
 }

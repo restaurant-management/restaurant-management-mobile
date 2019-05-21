@@ -1,22 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../models/dailyDish.dart';
 import '../../dishDetailScreen/dishDetailScreen.dart';
 
 class DishItemCard extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final String discount;
-  final String currentCost;
-  final String defaultCost;
+  final DailyDish dailyDish;
 
-  const DishItemCard(
-      {Key key,
-      this.imageUrl,
-      this.name,
-      this.discount = '',
-      this.currentCost,
-      this.defaultCost})
-      : super(key: key);
+  const DishItemCard({Key key, this.dailyDish}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +15,13 @@ class DishItemCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DishDetailScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => DishDetailScreen(
+                  dailyDish: dailyDish,
+                ),
+          ),
+        );
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -45,12 +39,20 @@ class DishItemCard extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                   placeholder: 'assets/images/placeholder.png',
                   fit: BoxFit.cover,
-                  image: imageUrl ?? '',
+                  image: dailyDish.dish.images[0] ?? '',
                   width: contextSize.width / 2.2,
                   height: contextSize.width / 2,
                 ),
               ),
-              _buildDiscount(discount: discount)
+              dailyDish.price > 0
+                  ? _buildDiscount(
+                      discount:
+                          ((dailyDish.price - dailyDish.dish.defaultPrice) *
+                                  100 /
+                                  dailyDish.dish.defaultPrice)
+                              .round()
+                              .toString())
+                  : Container(),
             ]),
             Padding(
               padding: EdgeInsets.all(8),
@@ -61,7 +63,7 @@ class DishItemCard extends StatelessWidget {
                   SizedBox(
                     width: contextSize.width / 2.4,
                     child: Text(
-                      name,
+                      dailyDish.dish.name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
@@ -78,15 +80,19 @@ class DishItemCard extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          '1.000.000',
+                          dailyDish.price > 0
+                              ? '${dailyDish.price} VNĐ'
+                              : '${dailyDish.dish.defaultPrice} VNĐ',
                           style: Theme.of(context).textTheme.body1,
                         ),
-                        Text(
-                          '1.250.000',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough),
-                        ),
+                        dailyDish.price > 0
+                            ? Text(
+                                '${dailyDish.dish.defaultPrice} VNĐ',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough),
+                              )
+                            : Container(),
                       ],
                     ),
                   )
@@ -115,8 +121,13 @@ class DishItemCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.shopping_cart, color: primaryColor,),
-                    SizedBox(width: 8,),
+                    Icon(
+                      Icons.shopping_cart,
+                      color: primaryColor,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
                     Text(
                       'Thêm vào hoá đơn',
                       style: TextStyle(color: primaryColor),
@@ -145,7 +156,7 @@ class DishItemCard extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  discount,
+                  '$discount%',
                   style: TextStyle(color: Colors.white),
                 ),
               )

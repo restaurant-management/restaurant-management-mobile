@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:restaurant_management_mobile/src/blocs/currentUserBloc/event.dart';
 
 import '../../repositories/userRepository.dart';
 import '../currentUserBloc/bloc.dart';
+import '../currentUserBloc/event.dart';
 import 'event.dart';
 import 'state.dart';
 

@@ -1,23 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/dailyDishBloc/bloc.dart';
+import '../../../blocs/dailyDishBloc/event.dart';
+import '../../../blocs/dailyDishBloc/state.dart';
+import '../../../models/dailyDish.dart';
+import '../../../widgets/loadingIndicator.dart';
 import 'dishItemCard.dart';
 
-class DishesList extends StatelessWidget {
+class DishesList extends StatefulWidget {
+  @override
+  _DishesListState createState() => _DishesListState();
+}
+
+class _DishesListState extends State<DishesList> {
+  final DailyDishBloc _dailyDishBloc = DailyDishBloc();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Theme.of(context).colorScheme.background,
-        child: SingleChildScrollView(
-          child: Column(
-            children: _buildRow(),
-          ),
-        ));
+    return BlocBuilder(
+      bloc: _dailyDishBloc,
+      builder: (BuildContext context, state) {
+        if (state is DailyDishInitialized) {
+          _dailyDishBloc.dispatch(FetchDailyDish());
+          return LoadingIndicator();
+        }
+        if (state is DailyDishFetching) return LoadingIndicator();
+        if (state is DailyDishFetched)
+          return Container(
+              color: Theme.of(context).colorScheme.background,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: _buildRow(state.listDailyDish),
+                ),
+              ));
+        if (state is DailyDishFetchFailure) {
+          return Container(
+            child: Center(
+              child: Text(state.error),
+            ),
+          );
+        }
+      },
+    );
   }
 
-  List<Widget> _buildRow() {
+  List<Widget> _buildRow(List<DailyDish> listDailyDish) {
     List<Widget> rows = [];
-    for (int i = 1; i < 10; i++) {
+    for (int i = 0; i < listDailyDish.length; i += 2) {
       rows.add(SizedBox(
         height: 10,
       ));
@@ -25,16 +56,15 @@ class DishesList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           DishItemCard(
-            imageUrl:
-                'https://znews-photo.zadn.vn/w660/Uploaded/jaroin/2016_08_25/qnn.jpg',
-            name: 'Gởi cuốn',
+            dailyDish: listDailyDish[i],
           ),
-          DishItemCard(
-            imageUrl:
-                'https://www.webtretho.com/contentreview/wp-content/uploads/sites/53/2018/04/cach-lam-mon-ngon-dai-tiec-cuoi-tuan-nhanh-chong-va-cuc-de-dang-01.jpg',
-            name: 'Gà hấp chanh',
-            discount: '-20%',
-          ),
+          i + 1 < listDailyDish.length
+              ? DishItemCard(
+                  dailyDish: listDailyDish[i + 1],
+                )
+              : Container(
+                  width: MediaQuery.of(context).size.width / 2.2,
+                ),
         ],
       ));
     }
