@@ -15,7 +15,7 @@ class DailyDishBloc extends Bloc<DailyDishEvent, DailyDishState> {
     if (event is FetchDailyDish) {
       yield DailyDishFetching();
       try {
-        var listDailyDish = await _repository.getAllDailyDish();
+        var listDailyDish = await _repository.fetchAllDishToday();
         yield DailyDishFetched(listDailyDish);
       } catch (e) {
         DailyDishFetchFailure(e.toString());

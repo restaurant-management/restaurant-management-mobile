@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:restaurant_management_mobile/src/blocs/cartBloc/bloc.dart';
+import 'package:restaurant_management_mobile/src/blocs/cartBloc/state.dart';
 
-class PrimaryCartButton extends StatelessWidget {
+class PrimaryCartButton extends StatefulWidget {
   final Color color;
-  final int count;
 
-  const PrimaryCartButton({Key key, this.color, this.count = 0}) : super(key: key);
+  const PrimaryCartButton({Key key, this.color}) : super(key: key);
+
+  @override
+  _PrimaryCartButtonState createState() => _PrimaryCartButtonState();
+}
+
+class _PrimaryCartButtonState extends State<PrimaryCartButton> {
+  int _count = 0;
+
+  final CartBloc _cartBloc = CartBloc();
+
+  @override
+  void initState() {
+    _count = _cartBloc.currentCart.listDishes.length;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _cartBloc.state.listen((state) {
+      if (state is CartBlocSaved || state is CartBlocFetched)
+        setState(() {
+          _count = _cartBloc.currentCart.listDishes.length;
+        });
+    });
     return InkWell(
       onTap: () {
         Scaffold.of(context).openDrawer();
@@ -17,7 +39,9 @@ class PrimaryCartButton extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.shopping_cart,
-            color: color != null ? color : Theme.of(context).primaryColor,
+            color: widget.color != null
+                ? widget.color
+                : Theme.of(context).primaryColor,
           ),
         ),
         Positioned(
@@ -32,7 +56,7 @@ class PrimaryCartButton extends StatelessWidget {
                 size: 20,
               ),
               Text(
-                count.toString(),
+                _count.toString(),
                 style: TextStyle(color: Colors.white),
               )
             ],

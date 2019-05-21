@@ -23,16 +23,18 @@ class BillsListView extends StatelessWidget {
               return BillItem();
             },
           );
-        if(state is BillBlocInitialize){
+        if (state is BillBlocInitialize) {
           _billBloc.dispatch(FetchAllBill());
           return LoadingIndicator();
         }
-        if (state is BillBlocFetching)
-          return LoadingIndicator();
+        if (state is BillBlocFetching) return LoadingIndicator();
         if (state is BillBlocFetchFailure)
           return Container(
             child: Center(
-              child: Text(state.error, style: TextStyle(color: Colors.red),),
+              child: Text(
+                state.error,
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           );
       },

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'widgets/cartList.dart';
 
+import 'widgets/dishList.dart';
 import 'widgets/summaryBill.dart';
 
-class CartScreen extends StatelessWidget {
+class BillDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +33,8 @@ class CartScreen extends StatelessWidget {
         child: Stack(children: <Widget>[
           Container(
             color: Theme.of(context).colorScheme.background,
-            child: CartList(
+            child: DishList(
               headerHeight: 10,
-              items: ['', '', '', '', '', '', '', '', '', '', '', ''],
             ),
           ),
         ]),

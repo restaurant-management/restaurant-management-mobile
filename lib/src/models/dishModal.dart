@@ -7,6 +7,8 @@ class DishModal extends Equatable {
   List<String> _images;
   int _defaultPrice;
 
+  int get dishId => _dishId;
+
   String get name => _name;
 
   String get description => _description;

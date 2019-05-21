@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
-import '../../cartScreen/cartScreen.dart';
+import 'package:restaurant_management_mobile/src/screens/billDetailScreen/billDetailScreen.dart';
 
 class BillItem extends StatefulWidget {
   @override
@@ -14,8 +14,8 @@ class BillItemState extends State<BillItem> {
     final primaryColor = Theme.of(context).primaryColor;
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CartScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => BillDetailScreen()));
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),

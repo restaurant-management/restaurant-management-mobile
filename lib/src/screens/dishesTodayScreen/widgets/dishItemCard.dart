@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_mobile/src/blocs/cartBloc/bloc.dart';
+import 'package:restaurant_management_mobile/src/blocs/cartBloc/event.dart';
 import '../../../models/dailyDish.dart';
 import '../../dishDetailScreen/dishDetailScreen.dart';
 
@@ -117,7 +119,9 @@ class DishItemCard extends StatelessWidget {
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  CartBloc().dispatch(AddDishIntoCart(dailyDish));
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
