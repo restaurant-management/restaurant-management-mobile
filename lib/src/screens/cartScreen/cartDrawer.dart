@@ -16,22 +16,10 @@ class CartDrawer extends StatelessWidget {
           Container(
             color: Theme.of(context).colorScheme.background,
             child: CartList(
+              justView: false,
               headerHeight: headerHeight,
               footerHeight: footerHeight,
-              items: [
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-              ],
+              items: ['', '', '', '', '', '', '', '', '', '', '', ''],
             ),
           ),
           SizedBox(

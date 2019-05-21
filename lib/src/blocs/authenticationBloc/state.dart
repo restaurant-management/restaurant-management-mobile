@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-abstract class AuthenticationState extends Equatable {}
+abstract class AuthenticationState extends Equatable {
+  AuthenticationState([List props = const[]]) : super(props);
+}
 
 class AuthenticationUninitialized extends AuthenticationState {
   @override

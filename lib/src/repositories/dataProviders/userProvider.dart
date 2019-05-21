@@ -74,7 +74,6 @@ class UserProvider {
     };
     final response =
         await client.get('$apiUrl/api/users/email/$email', headers: headers);
-    print(response.body);
     if (response.statusCode == 200) {
       return UserModel.fromJson(jsonDecode(response.body));
     } else {

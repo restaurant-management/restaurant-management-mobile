@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import '../../repositories/userRepository.dart';
+import '../../repositories/repository.dart';
 
 import 'event.dart';
 import 'state.dart';
@@ -7,7 +7,7 @@ import 'state.dart';
 
 /// Singleton Bloc
 class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
-  final UserRepository _userRepository = UserRepository();
+  final Repository _repository = Repository();
 
   CurrentUserBloc._internal();
 
@@ -25,7 +25,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
     if (event is FetchCurrentUserProfile) {
       yield CurrentUserProfileFetching();
       try {
-        await _userRepository.fetchCurrentUserProfile();
+        await _repository.fetchCurrentUserProfile();
         yield CurrentUserProfileFetched();
       } catch (e) {
         yield CurrentUserProfileFetchFailure(e.toString());

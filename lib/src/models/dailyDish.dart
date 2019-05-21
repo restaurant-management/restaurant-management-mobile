@@ -27,6 +27,5 @@ class DailyDish extends Equatable {
     _status = DailyDishStatus(parsedJson['status']);
     _price = parsedJson['price'];
     _dish = DishModal.fromJson(parsedJson['dish']);
-    print(_dish);
   }
 }

@@ -15,7 +15,6 @@ class DailyDishProvider {
       List<dynamic> list = jsonDecode(response.body);
       for (int i = 0; i < list.length; i++) {
         var dailyDish = DailyDish.fromJson(list[i]);
-        print('get all done');
         result.add(dailyDish);
       }
       return result;

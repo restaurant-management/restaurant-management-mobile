@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CartItem extends StatefulWidget {
+  final bool canChangeQuantity;
+
+  const CartItem({Key key, this.canChangeQuantity = true}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => CartItemState();
 }
 
 class CartItemState extends State<CartItem> {
   int _count = 1;
+
+  bool get canChangeQuantity => widget.canChangeQuantity;
 
   void _increase() {
     setState(() {
@@ -47,7 +53,7 @@ class CartItemState extends State<CartItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                width: 120,
+                width: MediaQuery.of(context).size.width * 0.3,
                 child: Text(
                   'Gỏi cuốn ngon nhất Sài Gòn',
                   overflow: TextOverflow.ellipsis,
@@ -82,7 +88,7 @@ class CartItemState extends State<CartItem> {
                     Icons.keyboard_arrow_up,
                     color: primaryColor,
                   ),
-                  onPressed: _increase,
+                  onPressed: canChangeQuantity ? _increase : null,
                 ),
               ),
               SizedBox(
@@ -107,7 +113,7 @@ class CartItemState extends State<CartItem> {
                     Icons.keyboard_arrow_down,
                     color: primaryColor,
                   ),
-                  onPressed: _decrease,
+                  onPressed: canChangeQuantity ? _decrease : null,
                 ),
               ),
             ],

@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../repositories/userRepository.dart';
+import '../../repositories/repository.dart';
 import '../authenticationBloc/bloc.dart';
 import '../authenticationBloc/event.dart';
 import 'event.dart';
 import 'state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final UserRepository _userRepository = UserRepository.instance;
+  final Repository _repository = Repository.instance;
   final AuthenticationBloc authenticationBloc;
 
   LoginBloc({@required this.authenticationBloc})
@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginLoading();
 
       try {
-        final token = await _userRepository.authenticate(
+        final token = await _repository.authenticate(
             usernameOrEmail: event.usernameOrEmail, password: event.password);
         authenticationBloc.dispatch(LoggedIn(event.usernameOrEmail, token));
       } catch (e) {

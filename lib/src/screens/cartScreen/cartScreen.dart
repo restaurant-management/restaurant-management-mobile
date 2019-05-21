@@ -34,6 +34,7 @@ class CartScreen extends StatelessWidget {
           Container(
             color: Theme.of(context).colorScheme.background,
             child: CartList(
+              headerHeight: 10,
               items: ['', '', '', '', '', '', '', '', '', '', '', ''],
             ),
           ),

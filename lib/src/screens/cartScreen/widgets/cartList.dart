@@ -8,23 +8,32 @@ class CartList extends StatefulWidget {
   final List<String> items;
   final double headerHeight;
   final double footerHeight;
+  final bool justView;
 
   const CartList(
-      {Key key, @required this.items, this.headerHeight, this.footerHeight})
+      {Key key,
+      @required this.items,
+      this.headerHeight,
+      this.footerHeight,
+      this.justView = true})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      CartListState(items, headerHeight, footerHeight);
+  State<StatefulWidget> createState() => CartListState();
 }
 
 class CartListState extends State<CartList> {
   // TODO Create and change type for cart item
-  final List<String> items;
-  final double headerHeight;
-  final double footerHeight;
 
-  CartListState(this.items, this.headerHeight, this.footerHeight);
+  List<String> get items => widget.items;
+
+  double get headerHeight => widget.headerHeight;
+
+  double get footerHeight => widget.footerHeight;
+
+  bool get justView => widget.justView;
+
+  CartListState();
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +50,17 @@ class CartListState extends State<CartList> {
                         height: headerHeight,
                       )
                     : Container(),
-                Dismissible(key: Key(item), child: CartItem()),
+                justView
+                    ? CartItem(canChangeQuantity: !justView,)
+                    : Dismissible(key: Key(item), child: CartItem()),
               ],
             );
           else if (index == items.length - 1)
             return Column(
               children: <Widget>[
-                Dismissible(key: Key(item), child: CartItem()),
+                justView
+                    ? CartItem(canChangeQuantity: !justView,)
+                    : Dismissible(key: Key(item), child: CartItem()),
                 footerHeight != null
                     ? SizedBox(
                         height: footerHeight + 8,
@@ -55,7 +68,9 @@ class CartListState extends State<CartList> {
                     : Container(),
               ],
             );
-          return Dismissible(key: Key(item), child: CartItem());
+          return justView
+              ? CartItem(canChangeQuantity: !justView,)
+              : Dismissible(key: Key(item), child: CartItem());
         });
   }
 }

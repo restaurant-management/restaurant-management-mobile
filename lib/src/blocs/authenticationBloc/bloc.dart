@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 
-import '../../repositories/userRepository.dart';
+import '../../repositories/repository.dart';
 import '../currentUserBloc/bloc.dart';
 import '../currentUserBloc/event.dart';
 import 'event.dart';
@@ -10,7 +10,7 @@ import 'state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final UserRepository _userRepository = UserRepository.instance;
+  final Repository _repository = Repository.instance;
   final CurrentUserBloc _currentUserBloc = CurrentUserBloc();
 
   @override
@@ -20,7 +20,7 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
     if (event is AppStarted) {
-      final bool hasToken = await _userRepository.hasToken();
+      final bool hasToken = await _repository.hasToken();
       if (hasToken) {
         _currentUserBloc.dispatch(FetchCurrentUserProfile());
         yield AuthenticationAuthenticated();
@@ -31,14 +31,14 @@ class AuthenticationBloc
 
     if (event is LoggedIn) {
       yield AuthenticationLoading();
-      await _userRepository.persistToken(event.token, event.usernameOrEmail);
+      await _repository.persistToken(event.token, event.usernameOrEmail);
       _currentUserBloc.dispatch(FetchCurrentUserProfile());
       yield AuthenticationAuthenticated();
     }
 
     if (event is LoggedOut) {
       yield AuthenticationLoading();
-      await _userRepository.deleteToken();
+      await _repository.deleteToken();
       yield AuthenticationUnauthenticated();
     }
   }

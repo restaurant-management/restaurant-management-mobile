@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 
-import '../../repositories/userRepository.dart';
+import '../../repositories/repository.dart';
 import '../currentUserBloc/bloc.dart';
 import '../currentUserBloc/event.dart';
 import '../currentUserBloc/state.dart';
@@ -10,7 +10,7 @@ import 'event.dart';
 import 'state.dart';
 
 class ProfileScreenBloc extends Bloc<ProfileScreenEvent, ProfileScreenState> {
-  final UserRepository _userRepository = UserRepository.instance;
+  final Repository _userRepository = Repository.instance;
   final CurrentUserBloc _currentUserBloc = CurrentUserBloc();
 
   StreamSubscription _currentUserBlocSubscription;

@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:restaurant_management_mobile/src/repositories/dailyDishRepository.dart';
+import '../../repositories/repository.dart';
 
 import 'event.dart';
 import 'state.dart';
 
 class DailyDishBloc extends Bloc<DailyDishEvent, DailyDishState> {
-  final DailyDishRepository _dailyDishRepository = DailyDishRepository();
+  final Repository _repository = Repository();
 
   @override
   DailyDishState get initialState => DailyDishInitialized();
@@ -15,7 +15,7 @@ class DailyDishBloc extends Bloc<DailyDishEvent, DailyDishState> {
     if (event is FetchDailyDish) {
       yield DailyDishFetching();
       try {
-        var listDailyDish = await _dailyDishRepository.getAllDailyDish();
+        var listDailyDish = await _repository.getAllDailyDish();
         yield DailyDishFetched(listDailyDish);
       } catch (e) {
         DailyDishFetchFailure(e.toString());
