@@ -28,6 +28,9 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   ScrollController scrollController;
 
+  String profileName = '';
+  String avatarUrl;
+
   ProfileScreenBloc get profileScreenBloc => widget.profileScreenBloc;
 
   @override
@@ -68,7 +71,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               pinned: true,
               title: OutlineText(
                 color: primaryColor,
-                text: 'Hieren Lee',
+                text: profileName,
               ),
               centerTitle: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -129,29 +132,32 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildAvatar() {
     Widget avatarWidget = Container(
-      child: BlocBuilder(
+      child: BlocListener(
+        child: Hero(
+          tag: "avatarHero",
+          child: ClipOval(
+            child: avatarUrl != null
+                ? FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/default-avatar.jpg',
+                    fit: BoxFit.fill,
+                    image: avatarUrl,
+                  )
+                : Image.asset(
+                    'assets/images/default-avatar.jpg',
+                    fit: BoxFit.fill,
+                  ),
+          ),
+        ),
         bloc: profileScreenBloc,
-        builder: (BuildContext context, state) {
-          String avatarUrl;
-          if (state is ProfileScreenFetched ||
-              state is ProfileScreenInitialize) {
-            avatarUrl = state.currentUser.avatar;
+        listener: (BuildContext context, state) {
+          if (state is ProfileScreenInitialize ||
+              state is ProfileScreenFetched) {
+            setState(() {
+              profileName =
+                  state.currentUser.fullName ?? state.currentUser.username;
+              avatarUrl = state.currentUser.avatar;
+            });
           }
-          return Hero(
-            tag: "avatarHero",
-            child: ClipOval(
-              child: avatarUrl != null
-                  ? FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/default-avatar.jpg',
-                      fit: BoxFit.fill,
-                      image: avatarUrl,
-                    )
-                  : Image.asset(
-                      'assets/images/default-avatar.jpg',
-                      fit: BoxFit.fill,
-                    ),
-            ),
-          );
         },
       ),
       width: 150.0,

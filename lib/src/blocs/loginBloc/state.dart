@@ -21,5 +21,5 @@ class LoginFailure extends LoginState {
   LoginFailure({@required this.error}) : super([error]);
 
   @override
-  String toString() => 'LoginFailure';
+  String toString() => 'LoginFailure (error: $error)';
 }

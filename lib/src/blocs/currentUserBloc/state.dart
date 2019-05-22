@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:restaurant_management_mobile/src/models/userModel.dart';
 
 abstract class CurrentUserState extends Equatable {
   CurrentUserState([List props = const[]]) : super(props);
@@ -15,6 +16,10 @@ class CurrentUserProfileFetching extends CurrentUserState {
 }
 
 class CurrentUserProfileFetched extends CurrentUserState {
+  final UserModel user;
+
+  CurrentUserProfileFetched(this.user) : super([user]);
+
   @override
   String toString() => 'CurrentUserProfileFetched';
 }

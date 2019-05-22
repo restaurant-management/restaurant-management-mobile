@@ -12,6 +12,7 @@ class UserProvider {
     print('Login...');
     final response = await client.post('$apiUrl/api/users/login',
         body: {'usernameOrEmail': usernameOrEmail, 'password': password});
+    print(response.body);
     if (response.statusCode == 200) {
       final token = response.body.toString().replaceAll('"', '');
       return token;

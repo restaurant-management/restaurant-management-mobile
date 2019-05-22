@@ -10,14 +10,14 @@ import 'event.dart';
 import 'state.dart';
 
 class ProfileScreenBloc extends Bloc<ProfileScreenEvent, ProfileScreenState> {
-  final Repository _userRepository = Repository.instance;
+  final Repository _repository = Repository.instance;
   final CurrentUserBloc _currentUserBloc = CurrentUserBloc();
 
   StreamSubscription _currentUserBlocSubscription;
 
   @override
   ProfileScreenState get initialState =>
-      ProfileScreenInitialize(_userRepository.currentUser);
+      ProfileScreenInitialize(_repository.currentUser);
 
   @override
   Stream<ProfileScreenState> mapEventToState(ProfileScreenEvent event) async* {
@@ -35,7 +35,7 @@ class ProfileScreenBloc extends Bloc<ProfileScreenEvent, ProfileScreenState> {
     }
 
     if (event is ProfileScreenFinishFetching) {
-      yield ProfileScreenFetched(_userRepository.currentUser);
+      yield ProfileScreenFetched(_repository.currentUser);
     }
 
     if (event is ProfileScreenFailFetching) {
