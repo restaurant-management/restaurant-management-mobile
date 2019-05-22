@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:restaurant_management_mobile/src/models/billModel.dart';
 import 'package:restaurant_management_mobile/src/screens/billDetailScreen/billDetailScreen.dart';
 
 class BillItem extends StatefulWidget {
+  final BillModel bill;
+
+  const BillItem({Key key, @required this.bill}) : assert(bill != null), super(key: key);
+
   @override
   State<StatefulWidget> createState() => BillItemState();
 }
 
 class BillItemState extends State<BillItem> {
+  BillModel get bill => widget.bill;
+
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
     return InkWell(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => BillDetailScreen()));
+            MaterialPageRoute(builder: (context) => BillDetailScreen(bill: bill,)));
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -42,7 +49,7 @@ class BillItemState extends State<BillItem> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
                       child: Text(
-                        'Mã: 111',
+                        'Mã: ${bill.billId}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -61,7 +68,7 @@ class BillItemState extends State<BillItem> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
                       child: Text(
-                        'Đang chuẩn bị',
+                        bill.status.toString(),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -91,7 +98,7 @@ class BillItemState extends State<BillItem> {
                         SizedBox(
                           height: 8,
                         ),
-                        Text('12')
+                        Text(bill.billDetails.length.toString())
                       ],
                     ),
                   ),
@@ -116,7 +123,7 @@ class BillItemState extends State<BillItem> {
                         SizedBox(
                           height: 8,
                         ),
-                        Text('5')
+                        Text('Đang phát triển!')
                       ],
                     ),
                   ),

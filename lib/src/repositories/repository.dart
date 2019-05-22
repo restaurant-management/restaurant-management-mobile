@@ -118,11 +118,17 @@ class Repository {
     return await _billProvider.getAll(token);
   }
 
-  /// Return bill id.
-  Future<int> createBill(List<int> dishIds, List<int> quantities) async {
+  /// Return bill model.
+  Future<BillModel> createBill(List<int> dishIds, List<int> quantities, List<int> prices) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(PrepsTokenKey);
-    return await _billProvider.createBill(token, dishIds, quantities);
+    return await _billProvider.createBill(token, dishIds, quantities, prices);
+  }
+
+  Future<BillModel> getBill(int billId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.getBill(token, billId);
   }
 
   Future<void> saveCart() async {

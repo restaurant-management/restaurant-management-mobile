@@ -50,7 +50,8 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
         child: BlocBuilder(
           bloc: _profileScreenBloc,
           builder: (BuildContext context, state) {
-            if (state is ProfileScreenFetched || state is ProfileScreenInitialize) {
+            if (state is ProfileScreenFetched ||
+                state is ProfileScreenInitialize) {
               if (state.currentUser == null)
                 _profileScreenBloc.dispatch(ProfileScreenFetchProfile());
               else
@@ -88,11 +89,16 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                   child: Hero(
                     tag: "avatarHero",
                     child: ClipOval(
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/default-avatar.jpg',
-                        fit: BoxFit.fill,
-                        image: user.avatar ?? '',
-                      ),
+                      child: user.avatar != null
+                          ? FadeInImage.assetNetwork(
+                              placeholder: 'assets/images/default-avatar.jpg',
+                              fit: BoxFit.fill,
+                              image: user.avatar,
+                            )
+                          : Image.asset(
+                              'assets/images/default-avatar.jpg',
+                              fit: BoxFit.fill,
+                            ),
                     ),
                   ),
                 ),

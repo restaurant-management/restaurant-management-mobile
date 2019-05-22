@@ -34,8 +34,8 @@ class BillProvider {
     }
   }
 
-  Future<int> createBill(
-      String token, List<int> dishIds, List<int> quantities) async {
+  Future<BillModel> createBill(String token, List<int> dishIds,
+      List<int> quantities, List<int> prices) async {
     Map<String, String> headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': token
@@ -45,12 +45,12 @@ class BillProvider {
     for (int i = 0; i < dishIds.length; i++) {
       body.addAll({
         'dishIds[$i]': dishIds[i].toString(),
-        'quantities[$i]': quantities[i].toString()
+        'quantities[$i]': quantities[i].toString(),
+        'prices[$i]': prices[i].toString()
       });
     }
     final response =
         await client.post('$apiUrl/api/bills', body: body, headers: headers);
-    print('asdads');
     if (response.statusCode != 200) {
       String message;
       try {
@@ -62,7 +62,29 @@ class BillProvider {
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Tạo hoá đơn thất bại.');
     } else {
-      return jsonDecode(response.body)['billId'];
+      return BillModel.fromJson(jsonDecode(response.body));
+    }
+  }
+
+  Future<BillModel> getBill(String token, int billId) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': token
+    };
+    final response =
+        await client.post('$apiUrl/api/bills/$billId', headers: headers);
+    if (response.statusCode == 200) {
+      return BillModel.fromJson(jsonDecode(response.body));
+    } else {
+      String message;
+      try {
+        message = jsonDecode(response.body)['message'];
+      } catch (e) {
+        print('Error: $e');
+        throw Exception('Có lỗi xảy ra khi tải hoá đơn.');
+      }
+      if (message != null && message.isNotEmpty) throw Exception(message);
+      throw Exception('Có lỗi xảy ra khi tải hoá đơn.');
     }
   }
 }

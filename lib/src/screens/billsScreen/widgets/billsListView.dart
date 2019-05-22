@@ -20,7 +20,7 @@ class BillsListView extends StatelessWidget {
           return ListView.builder(
             itemCount: state.listBill.length,
             itemBuilder: (context, index) {
-              return BillItem();
+              return BillItem(bill: state.listBill[index],);
             },
           );
         if (state is BillBlocInitialize) {

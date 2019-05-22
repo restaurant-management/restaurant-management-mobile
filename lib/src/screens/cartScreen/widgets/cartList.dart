@@ -6,6 +6,7 @@ import 'package:restaurant_management_mobile/src/blocs/cartBloc/bloc.dart';
 import 'package:restaurant_management_mobile/src/blocs/cartBloc/event.dart';
 import 'package:restaurant_management_mobile/src/blocs/cartBloc/state.dart';
 import 'package:restaurant_management_mobile/src/models/cartDishModel.dart';
+import 'package:restaurant_management_mobile/src/screens/billDetailScreen/billDetailScreen.dart';
 import 'package:restaurant_management_mobile/src/widgets/loadingIndicator.dart';
 
 import 'cartItem.dart';
@@ -100,6 +101,32 @@ class _CartListState extends State<CartList> {
                   }),
               LoadingIndicator(),
             ],
+          );
+        if (state is CartBlocCreatedBill)
+          return Container(
+            child: Center(
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => BillDetailScreen(
+                            bill: state.bill,
+                          ),
+                    ),
+                  );
+                },
+                child: Text('Xem hoá đơn'),
+              ),
+            ),
+          );
+        if (state is CartBlocCreateBillFailure)
+          return Container(
+            child: Center(
+              child: Text(
+                'Chưa có món ăn!',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
           );
 
         return ListView.builder(

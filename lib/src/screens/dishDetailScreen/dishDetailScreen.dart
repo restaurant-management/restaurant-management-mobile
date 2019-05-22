@@ -27,6 +27,7 @@ class DishDetailScreen extends StatefulWidget {
 class _DishDetailScreenState extends State<DishDetailScreen> {
   int _discountPrice;
   DishModal _dish;
+  bool liked;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _DishDetailScreenState extends State<DishDetailScreen> {
       _dish = widget.dishModal;
       _discountPrice = 0;
     }
+    liked = false;
     super.initState();
   }
 
@@ -54,7 +56,11 @@ class _DishDetailScreenState extends State<DishDetailScreen> {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     return DrawerScaffold(
       appBar: BackAppBar(),
-      bottomNavigationBar: AddCartButton(),
+      bottomNavigationBar: widget.dailyDish != null
+          ? AddCartButton(
+              dailyDish: widget.dailyDish,
+            )
+          : Container(),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -94,11 +100,20 @@ class _DishDetailScreenState extends State<DishDetailScreen> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(
-                      Icons.favorite_border,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
+                    icon: liked
+                        ? Icon(
+                            Icons.favorite,
+                            color: primaryColor,
+                          )
+                        : Icon(
+                            Icons.favorite_border,
+                            color: Colors.black,
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        liked = !liked;
+                      });
+                    },
                   )
                 ],
               ),

@@ -140,11 +140,16 @@ class ProfileScreenState extends State<ProfileScreen> {
           return Hero(
             tag: "avatarHero",
             child: ClipOval(
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/default-avatar.jpg',
-                fit: BoxFit.fill,
-                image: avatarUrl ?? '',
-              ),
+              child: avatarUrl != null
+                  ? FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/default-avatar.jpg',
+                      fit: BoxFit.fill,
+                      image: avatarUrl,
+                    )
+                  : Image.asset(
+                      'assets/images/default-avatar.jpg',
+                      fit: BoxFit.fill,
+                    ),
             ),
           );
         },

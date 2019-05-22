@@ -2,33 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:restaurant_management_mobile/src/blocs/cartBloc/bloc.dart';
-import 'package:restaurant_management_mobile/src/models/cartDishModel.dart';
+import 'package:restaurant_management_mobile/src/models/billDetailModel.dart';
 
 import 'dishItem.dart';
 
 class DishList extends StatefulWidget {
   final double headerHeight;
   final double footerHeight;
-  final bool justView;
+  final List<BillDetailModel> billDetails;
 
   const DishList(
-      {Key key, this.headerHeight, this.footerHeight, this.justView = true})
-      : super(key: key);
+      {Key key,
+      this.headerHeight,
+      this.footerHeight,
+      @required this.billDetails})
+      : assert(billDetails != null),
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DishListState();
 }
 
 class _DishListState extends State<DishList> {
-  final CartBloc _cartBloc = CartBloc();
-
-  List<CartDishModel> get items => _cartBloc.currentCart.listDishes;
+  List<BillDetailModel> get items => widget.billDetails;
 
   double get headerHeight => widget.headerHeight;
 
   double get footerHeight => widget.footerHeight;
-
-  bool get justView => widget.justView;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,6 @@ class _DishListState extends State<DishList> {
         scrollDirection: Axis.vertical,
         itemCount: items.length,
         itemBuilder: (context, index) {
-          final item = items[index].dishId.toString();
           if (index == 0)
             return Column(
               children: <Widget>[
@@ -45,27 +44,17 @@ class _DishListState extends State<DishList> {
                         height: headerHeight,
                       )
                     : Container(),
-                justView
-                    ? DishItem(
-                        canChangeQuantity: !justView,
-                      )
-                    : Dismissible(
-                        key: Key(item),
-                        child: DishItem(),
-                      ),
+                DishItem(
+                  billDetailModel: items[index],
+                ),
               ],
             );
           else if (index == items.length - 1)
             return Column(
               children: <Widget>[
-                justView
-                    ? DishItem(
-                        canChangeQuantity: !justView,
-                      )
-                    : Dismissible(
-                        key: Key(item),
-                        child: DishItem(),
-                      ),
+                DishItem(
+                  billDetailModel: items[index],
+                ),
                 footerHeight != null
                     ? SizedBox(
                         height: footerHeight + 8,
@@ -73,11 +62,9 @@ class _DishListState extends State<DishList> {
                     : Container(),
               ],
             );
-          return justView
-              ? DishItem(
-                  canChangeQuantity: !justView,
-                )
-              : Dismissible(key: Key(item), child: DishItem());
+          return DishItem(
+            billDetailModel: items[index],
+          );
         });
   }
 }

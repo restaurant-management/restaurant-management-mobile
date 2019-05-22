@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:restaurant_management_mobile/src/models/billModel.dart';
 import 'package:restaurant_management_mobile/src/models/cartDishModel.dart';
 
 abstract class CartBlocState extends Equatable {
@@ -76,12 +77,12 @@ class CartBlocCreatingBill extends CartBlocState {
 }
 
 class CartBlocCreatedBill extends CartBlocState {
-  final int billId;
+  final BillModel bill;
 
-  CartBlocCreatedBill(this.billId) : super([billId]);
+  CartBlocCreatedBill(this.bill) : super([bill]);
 
   @override
-  String toString() => 'CartBlocCreatedBill (billId: $billId)';
+  String toString() => 'CartBlocCreatedBill (billId: $bill)';
 }
 
 class CartBlocCreateBillFailure extends CartBlocState {

@@ -1,31 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:restaurant_management_mobile/src/models/billDetailModel.dart';
 
-class DishItem extends StatefulWidget {
-  final bool canChangeQuantity;
+class DishItem extends StatelessWidget {
+  final BillDetailModel billDetailModel;
 
-  const DishItem({Key key, this.canChangeQuantity = true}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => DishItemState();
-}
-
-class DishItemState extends State<DishItem> {
-  int _count = 1;
-
-  bool get canChangeQuantity => widget.canChangeQuantity;
-
-  void _increase() {
-    setState(() {
-      _count = _count + 1;
-    });
-  }
-
-  void _decrease() {
-    setState(() {
-      _count = _count == 1 ? _count : _count - 1;
-    });
-  }
+  const DishItem({Key key, @required this.billDetailModel})
+      : assert(billDetailModel != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +24,7 @@ class DishItemState extends State<DishItem> {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20), topLeft: Radius.circular(20)),
             child: Image.network(
-              'https://znews-photo.zadn.vn/w660/Uploaded/jaroin/2016_08_25/qnn.jpg',
+              billDetailModel.dish.images[0],
               fit: BoxFit.cover,
               width: 80,
               height: 80,
@@ -55,7 +37,7 @@ class DishItemState extends State<DishItem> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: Text(
-                  'Gỏi cuốn ngon nhất Sài Gòn',
+                  billDetailModel.dish.name,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(
@@ -68,54 +50,27 @@ class DishItemState extends State<DishItem> {
               SizedBox(
                 height: 10,
               ),
-              Text('1.000.000 VNĐ'),
+              Text('${billDetailModel.price.toString()} VNĐ'),
             ],
           ),
           Column(
             children: <Widget>[
               SizedBox(
                 height: 25,
-                width: 60,
-                child: FlatButton(
-                  color: Colors.white,
-                  splashColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.keyboard_arrow_up,
-                    color: primaryColor,
-                  ),
-                  onPressed: canChangeQuantity ? _increase : null,
-                ),
+                width: 80,
+                child: Center(
+                    child: Text(
+                  'Số lượng',
+                  style: TextStyle(color: primaryColor),
+                )),
               ),
               SizedBox(
                   height: 30,
                   child: Row(
                     children: <Widget>[
-                      Text(_count.toString()),
+                      Text(billDetailModel.quantity.toString()),
                     ],
                   )),
-              SizedBox(
-                height: 25,
-                width: 60,
-                child: FlatButton(
-                  color: Colors.white,
-                  splashColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: primaryColor,
-                  ),
-                  onPressed: canChangeQuantity ? _decrease : null,
-                ),
-              ),
             ],
           )
         ],
