@@ -66,5 +66,20 @@ class CartBloc extends Bloc<CartBlocEvent, CartBlocState> {
       yield CartBlocChangedDishQuantity(event.dishId, event.quantity);
       dispatch(SaveCartBloc());
     }
+
+    if (event is CreateBillFromCart) {
+      yield CartBlocCreatingBill();
+      try {
+        if (currentCart.listDishes.length == 0)
+          throw Exception('Chưa có món ăn!');
+        var billId = await _repository.createBill(
+            currentCart.listDishes.map((e) => e.dishId).toList(),
+            currentCart.listDishes.map((e) => e.quantity).toList());
+        await _repository.clearCart();
+        yield CartBlocCreatedBill(billId);
+      } catch (e) {
+        yield CartBlocCreateBillFailure(e.toString());
+      }
+    }
   }
 }

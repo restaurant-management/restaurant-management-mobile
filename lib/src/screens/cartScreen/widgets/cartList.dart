@@ -41,7 +41,8 @@ class _CartListState extends State<CartList> {
           _cartBloc.dispatch(FetchCartBloc());
           return LoadingIndicator();
         }
-        if (state is CartBlocFetching) return LoadingIndicator();
+        if (state is CartBlocFetching || state is CartBlocCreatingBill)
+          return LoadingIndicator();
         if (state is CartBlocSaving)
           return Stack(
             children: <Widget>[
@@ -60,7 +61,7 @@ class _CartListState extends State<CartList> {
                               : Container(),
                           Dismissible(
                             key: Key(item),
-                            onDismissed: (direct){
+                            onDismissed: (direct) {
                               onDismissed(items[index].dishId);
                             },
                             child: CartItem(
@@ -74,7 +75,7 @@ class _CartListState extends State<CartList> {
                         children: <Widget>[
                           Dismissible(
                             key: Key(item),
-                            onDismissed: (direct){
+                            onDismissed: (direct) {
                               onDismissed(items[index].dishId);
                             },
                             child: CartItem(
@@ -90,7 +91,7 @@ class _CartListState extends State<CartList> {
                       );
                     return Dismissible(
                         key: Key(item),
-                        onDismissed: (direct){
+                        onDismissed: (direct) {
                           onDismissed(items[index].dishId);
                         },
                         child: CartItem(
@@ -116,7 +117,7 @@ class _CartListState extends State<CartList> {
                         : Container(),
                     Dismissible(
                       key: Key(item),
-                      onDismissed: (direct){
+                      onDismissed: (direct) {
                         onDismissed(items[index].dishId);
                       },
                       child: CartItem(
@@ -130,7 +131,7 @@ class _CartListState extends State<CartList> {
                   children: <Widget>[
                     Dismissible(
                       key: Key(item),
-                      onDismissed: (direct){
+                      onDismissed: (direct) {
                         onDismissed(items[index].dishId);
                       },
                       child: CartItem(
@@ -146,7 +147,7 @@ class _CartListState extends State<CartList> {
                 );
               return Dismissible(
                   key: Key(item),
-                  onDismissed: (direct){
+                  onDismissed: (direct) {
                     onDismissed(items[index].dishId);
                   },
                   child: CartItem(

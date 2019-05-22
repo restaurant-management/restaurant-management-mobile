@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:restaurant_management_mobile/src/models/cartModel.dart';
 import 'package:restaurant_management_mobile/src/models/dailyDish.dart';
 
 abstract class CartBlocEvent extends Equatable {
@@ -43,4 +44,9 @@ class ChangeDistQuantityInCart extends CartBlocEvent {
   @override
   String toString() =>
       'ChangeDistQuantityInCart (dishid: $dishId, quantity: $quantity)';
+}
+
+class CreateBillFromCart extends CartBlocEvent {
+  @override
+  String toString() => 'CreateBillFromCart';
 }

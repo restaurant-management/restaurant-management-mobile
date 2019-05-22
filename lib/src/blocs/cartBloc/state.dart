@@ -69,3 +69,26 @@ class CartBlocFailure extends CartBlocState {
   @override
   String toString() => 'CartBlocFailure {error: $error}';
 }
+
+class CartBlocCreatingBill extends CartBlocState {
+  @override
+  String toString() => 'CartBlocCreatingBill';
+}
+
+class CartBlocCreatedBill extends CartBlocState {
+  final int billId;
+
+  CartBlocCreatedBill(this.billId) : super([billId]);
+
+  @override
+  String toString() => 'CartBlocCreatedBill (billId: $billId)';
+}
+
+class CartBlocCreateBillFailure extends CartBlocState {
+  final String error;
+
+  CartBlocCreateBillFailure(this.error) : super([error]);
+
+  @override
+  String toString() => 'CartBlocCreateBillFailure (error: $error)';
+}

@@ -118,6 +118,13 @@ class Repository {
     return await _billProvider.getAll(token);
   }
 
+  /// Return bill id.
+  Future<int> createBill(List<int> dishIds, List<int> quantities) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.createBill(token, dishIds, quantities);
+  }
+
   Future<void> saveCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PrepsCart, jsonEncode(_currentCart.toJson()));
@@ -158,7 +165,12 @@ class Repository {
   Future<void> getCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String stringCart = prefs.getString(PrepsCart);
-    print('getcart $stringCart');
     _currentCart = CartModel.fromJson(jsonDecode(stringCart));
+  }
+
+  Future<void> clearCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _currentCart = CartModel.empty();
+    await prefs.setString(PrepsCart, jsonEncode(_currentCart.toJson()));
   }
 }
