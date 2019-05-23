@@ -129,7 +129,6 @@ class _LoginFormState extends State<LoginForm> {
                         loadingKey: _loginButton,
                         text: "Đăng nhập",
                         onPressed: () {
-                          print(_loginButton);
                           if (_validateInputs()) {
                             _loginBloc.dispatch(
                               LoginButtonPressed(

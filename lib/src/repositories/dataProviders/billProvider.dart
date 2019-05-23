@@ -27,7 +27,6 @@ class BillProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Có lỗi xảy ra khi tải danh sách hoá đơn.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Có lỗi xảy ra khi tải danh sách hoá đơn.');
@@ -57,7 +56,6 @@ class BillProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Tạo hoá đơn thất bại.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Tạo hoá đơn thất bại.');
@@ -81,7 +79,6 @@ class BillProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Có lỗi xảy ra khi tải hoá đơn.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Có lỗi xảy ra khi tải hoá đơn.');

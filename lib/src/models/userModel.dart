@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import 'package:restaurant_management_mobile/src/enums/permission.dart';
 
@@ -37,7 +38,9 @@ class UserModel extends Equatable {
     _fullName = parsedJson['fullName'];
     _avatar = parsedJson['avatar'];
     _email = parsedJson['email'];
-    _birthday = parsedJson['birthday'];
+    _birthday = parsedJson['birthday'] != null
+        ? DateFormat('yyyy-MM-dd').parse(parsedJson['birthday'])
+        : null;
     List<String> stringPermissions = parsedJson['permissions'];
     _permissions = Permission.fromListString(stringPermissions);
     _point = parsedJson['point'];

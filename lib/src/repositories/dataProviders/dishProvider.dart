@@ -17,7 +17,6 @@ class DishProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Tải thông tin món ăn thất bại.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Tải thông tin món ăn thất bại.');
@@ -40,7 +39,6 @@ class DishProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Tải danh sách món ăn thất bại.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Tải danh sách món ăn thất bại.');

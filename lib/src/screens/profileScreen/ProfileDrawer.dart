@@ -2,15 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_management_mobile/src/blocs/profileScreenBloc/event.dart';
-import 'package:restaurant_management_mobile/src/blocs/profileScreenBloc/state.dart';
+import 'package:restaurant_management_mobile/src/blocs/currentUserBloc/bloc.dart';
+import 'package:restaurant_management_mobile/src/blocs/currentUserBloc/state.dart';
 import 'package:restaurant_management_mobile/src/models/userModel.dart';
 import 'package:restaurant_management_mobile/src/widgets/loadingIndicator.dart';
 
 import '../../blocs/authenticationBloc/bloc.dart';
 import '../../blocs/authenticationBloc/event.dart';
 import '../../blocs/authenticationBloc/state.dart';
-import '../../blocs/profileScreenBloc/bloc.dart';
 import '../billsScreen/billScreen.dart';
 import '../editProfileScreen/editPasswordScreen.dart';
 import '../editProfileScreen/editProfileScreen.dart';
@@ -29,7 +28,7 @@ class ProfileDrawer extends StatefulWidget {
 }
 
 class _ProfileDrawerState extends State<ProfileDrawer> {
-  ProfileScreenBloc _profileScreenBloc = ProfileScreenBloc();
+  CurrentUserBloc _currentUserBloc = CurrentUserBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +47,11 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
       },
       child: Drawer(
         child: BlocBuilder(
-          bloc: _profileScreenBloc,
+          bloc: _currentUserBloc,
           builder: (BuildContext context, state) {
-            if (state is ProfileScreenFetched ||
-                state is ProfileScreenInitialize) {
-              if (state.currentUser == null)
-                _profileScreenBloc.dispatch(ProfileScreenFetchProfile());
-              else
-                return _buildContent(state.currentUser);
-            }
-
-            if (state is ProfileScreenFetching) return LoadingIndicator();
-            if (state is ProfileScreenFetchFailure) return Container();
+            if (state is CurrentUserProfileFetched)
+              return _buildContent(state.user);
+            return LoadingIndicator();
           },
         ),
       ),
@@ -80,9 +72,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProfileScreen(
-                              profileScreenBloc: _profileScreenBloc,
-                            ),
+                        builder: (context) => ProfileScreen(user: user,),
                       ),
                     );
                   },

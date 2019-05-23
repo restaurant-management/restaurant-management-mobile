@@ -19,7 +19,8 @@ dependencies:
   bloc: ^0.13.0
   rxdart: ^0.22.0
   flutter_bloc: ^0.13.0
-  image_picker: ^0.6.0+4
+  image_picker: ^0.4.0
+  firebase_storage: ^3.0.0
 
 dev_dependencies:
   flutter_test:

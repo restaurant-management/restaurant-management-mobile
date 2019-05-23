@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:restaurant_management_mobile/src/models/billModel.dart';
 import 'package:restaurant_management_mobile/src/models/cartDishModel.dart';
@@ -119,7 +122,8 @@ class Repository {
   }
 
   /// Return bill model.
-  Future<BillModel> createBill(List<int> dishIds, List<int> quantities, List<int> prices) async {
+  Future<BillModel> createBill(
+      List<int> dishIds, List<int> quantities, List<int> prices) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(PrepsTokenKey);
     return await _billProvider.createBill(token, dishIds, quantities, prices);
@@ -178,5 +182,23 @@ class Repository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _currentCart = CartModel.empty();
     await prefs.setString(PrepsCart, jsonEncode(_currentCart.toJson()));
+  }
+
+  Future<String> uploadAvatar(File imageFile, String username) async {
+    String fileName =
+        username + '-' + DateTime.now().toString();
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    print(await taskSnapshot.ref.getDownloadURL());
+    return await taskSnapshot.ref.getDownloadURL();
+  }
+
+  Future<UserModel> saveProfile(UserModel user, String fullName, String email,
+      DateTime birthday, String avatar) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _userProvider.editUserProfile(
+        token, user.username, email, fullName, birthday, avatar);
   }
 }

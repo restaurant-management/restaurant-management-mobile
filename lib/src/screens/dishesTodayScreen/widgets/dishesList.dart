@@ -27,14 +27,38 @@ class _DishesListState extends State<DishesList> {
           return LoadingIndicator();
         }
         if (state is DailyDishFetching) return LoadingIndicator();
-        if (state is DailyDishFetched)
+        if (state is DailyDishFetched) {
+          if (state.listDailyDish.length == 0) {
+            return Container(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Text('Không có món nào cả!'),
+                      FlatButton(
+                        child: Text('Tải lại'),
+                        onPressed: () {
+                          _dailyDishBloc.dispatch(FetchDailyDish());
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
           return Container(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .background,
               child: SingleChildScrollView(
                 child: Column(
                   children: _buildRow(state.listDailyDish),
                 ),
               ));
+        }
         if (state is DailyDishFetchFailure) {
           return Container(
             child: Center(
@@ -60,11 +84,14 @@ class _DishesListState extends State<DishesList> {
           ),
           i + 1 < listDailyDish.length
               ? DishItemCard(
-                  dailyDish: listDailyDish[i + 1],
-                )
+            dailyDish: listDailyDish[i + 1],
+          )
               : Container(
-                  width: MediaQuery.of(context).size.width / 2.2,
-                ),
+            width: MediaQuery
+                .of(context)
+                .size
+                .width / 2.2,
+          ),
         ],
       ));
     }

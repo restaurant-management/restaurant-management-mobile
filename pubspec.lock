@@ -50,6 +50,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.10"
+  firebase_core:
+    dependency: transitive
+    description:
+      name: firebase_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0+1"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -108,7 +122,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.0+4"
+    version: "0.4.12+1"
   intl:
     dependency: "direct main"
     description:

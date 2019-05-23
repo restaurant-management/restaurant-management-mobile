@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/userModel.dart';
 
@@ -22,7 +23,6 @@ class UserProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Đăng nhập thất bại.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Đăng nhập thất bại.');
@@ -39,7 +39,6 @@ class UserProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Đăng ký thất bại.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Đăng ký thất bại.');
@@ -61,7 +60,6 @@ class UserProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Đăng nhập thất bại.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Đăng nhập thất bại.');
@@ -83,10 +81,37 @@ class UserProvider {
         message = jsonDecode(response.body)['message'];
       } catch (e) {
         print('Error: $e');
-        throw Exception('Đăng nhập thất bại.');
       }
       if (message != null && message.isNotEmpty) throw Exception(message);
       throw Exception('Đăng nhập thất bại.');
+    }
+  }
+
+  Future<UserModel> editUserProfile(String token, String username, String email,
+      String fullName, DateTime birthday, String avatar) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': token
+    };
+
+    final response = await client
+        .put('$apiUrl/api/users/$username', headers: headers, body: {
+      'email': email,
+      'fullName': fullName,
+      'birthday': DateFormat('yyyy-MM-dd').format(birthday).toString(),
+      'avatar': avatar
+    });
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(jsonDecode(response.body));
+    } else {
+      String message;
+      try {
+        message = jsonDecode(response.body)['message'];
+      } catch (e) {
+        print('Error: $e');
+      }
+      if (message != null && message.isNotEmpty) throw Exception(message);
+      throw Exception('Sửa thông tin thất bại.');
     }
   }
 }

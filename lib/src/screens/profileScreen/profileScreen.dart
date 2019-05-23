@@ -3,9 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_management_mobile/src/blocs/profileScreenBloc/bloc.dart';
-import 'package:restaurant_management_mobile/src/blocs/profileScreenBloc/state.dart';
+import 'package:restaurant_management_mobile/src/models/userModel.dart';
 
 import '../../utils/outlineText.dart';
 import '../dishesTodayScreen/widgets/dishesList.dart';
@@ -13,10 +11,10 @@ import '../editProfileScreen/editProfileScreen.dart';
 import 'widgets/profileTab.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final ProfileScreenBloc profileScreenBloc;
+  final UserModel user;
 
-  const ProfileScreen({Key key, this.profileScreenBloc})
-      : assert(profileScreenBloc != null),
+  const ProfileScreen({Key key, @required this.user})
+      : assert(user != null),
         super(key: key);
 
   @override
@@ -28,10 +26,7 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   ScrollController scrollController;
 
-  String profileName = '';
-  String avatarUrl;
-
-  ProfileScreenBloc get profileScreenBloc => widget.profileScreenBloc;
+  UserModel get user => widget.user;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +66,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               pinned: true,
               title: OutlineText(
                 color: primaryColor,
-                text: profileName,
+                text: user.fullName ?? user.username,
               ),
               centerTitle: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -116,10 +111,7 @@ class ProfileScreenState extends State<ProfileScreen> {
             SliverFillRemaining(
               child: TabBarView(
                 children: <Widget>[
-                  BlocProvider(
-                    child: ProfileTab(),
-                    bloc: profileScreenBloc,
-                  ),
+                  ProfileTab(user: user,),
                   DishesList(),
                 ],
               ),
@@ -132,33 +124,15 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildAvatar() {
     Widget avatarWidget = Container(
-      child: BlocListener(
-        child: Hero(
-          tag: "avatarHero",
-          child: ClipOval(
-            child: avatarUrl != null
-                ? FadeInImage.assetNetwork(
-                    placeholder: 'assets/images/default-avatar.jpg',
-                    fit: BoxFit.fill,
-                    image: avatarUrl,
-                  )
-                : Image.asset(
-                    'assets/images/default-avatar.jpg',
-                    fit: BoxFit.fill,
-                  ),
-          ),
+      child: Hero(
+        tag: "avatarHero",
+        child: ClipOval(
+          child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/default-avatar.jpg',
+                  fit: BoxFit.fill,
+                  image: user.avatar,
+                ),
         ),
-        bloc: profileScreenBloc,
-        listener: (BuildContext context, state) {
-          if (state is ProfileScreenInitialize ||
-              state is ProfileScreenFetched) {
-            setState(() {
-              profileName =
-                  state.currentUser.fullName ?? state.currentUser.username;
-              avatarUrl = state.currentUser.avatar;
-            });
-          }
-        },
       ),
       width: 150.0,
       height: 150.0,
