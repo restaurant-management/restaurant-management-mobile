@@ -72,7 +72,9 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProfileScreen(user: user,),
+                        builder: (context) => ProfileScreen(
+                              user: user,
+                            ),
                       ),
                     );
                   },
@@ -145,8 +147,12 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
             style: TextStyle(color: Colors.deepPurple, fontSize: 16),
           ),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EditPasswordScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EditPasswordScreen(
+                          currentUser: user,
+                        )));
           },
         ),
         ListTile(

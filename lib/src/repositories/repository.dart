@@ -185,9 +185,9 @@ class Repository {
   }
 
   Future<String> uploadAvatar(File imageFile, String username) async {
-    String fileName =
-        username + '-' + DateTime.now().toString();
-    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+    String fileName = username + '-' + DateTime.now().toString();
+    StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     print(await taskSnapshot.ref.getDownloadURL());
@@ -200,5 +200,13 @@ class Repository {
     final token = prefs.getString(PrepsTokenKey);
     return await _userProvider.editUserProfile(
         token, user.username, email, fullName, birthday, avatar);
+  }
+
+  Future changeUserPassword(
+      UserModel user, String oldPassword, String newPassword) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    await _userProvider.changePassword(
+        token, user.username, oldPassword, newPassword);
   }
 }

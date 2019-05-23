@@ -13,6 +13,14 @@ class AuthenticationBloc
   final Repository _repository = Repository.instance;
   final CurrentUserBloc _currentUserBloc = CurrentUserBloc();
 
+  AuthenticationBloc._internal();
+
+  static AuthenticationBloc _singleton = AuthenticationBloc._internal();
+
+  factory AuthenticationBloc(){
+    return _singleton;
+  }
+
   @override
   AuthenticationState get initialState => AuthenticationUninitialized();
 

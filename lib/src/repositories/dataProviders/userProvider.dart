@@ -114,4 +114,28 @@ class UserProvider {
       throw Exception('Sửa thông tin thất bại.');
     }
   }
+
+  Future changePassword(String token, String username, String oldPassword,
+      String newPassword) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': token
+    };
+    final response = await client
+        .put('$apiUrl/api/users/$username/password', headers: headers, body: {
+      'oldPassword': oldPassword,
+      'newPassword': newPassword
+    });
+
+    if (response.statusCode != 200) {
+      String message;
+      try {
+        message = jsonDecode(response.body)['message'];
+      } catch (e) {
+        print('Error: $e');
+      }
+      if (message != null && message.isNotEmpty) throw Exception(message);
+      throw Exception('Sửa mật khẩu thất bại.');
+    }
+  }
 }
