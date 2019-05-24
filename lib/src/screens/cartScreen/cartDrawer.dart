@@ -9,7 +9,7 @@ class CartDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final headerHeight = screenHeight * 0.1;
-    final footerHeight = screenHeight * 0.15;
+    final footerHeight = screenHeight * 0.17;
     return Drawer(
       child: SafeArea(
         child: Stack(children: <Widget>[

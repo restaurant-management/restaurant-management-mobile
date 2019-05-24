@@ -47,34 +47,37 @@ class _CartFooterState extends State<CartFooter> {
       child: Container(
         height: widget.height,
         color: Theme.of(context).colorScheme.background,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            SummaryBill(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GradientButton(
-                increaseWidthBy: 100,
-                child: Text('Tạo hoá đơn'),
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    !_isCreating
-                        ? const Color.fromRGBO(88, 39, 176, 1)
-                        : const Color.fromRGBO(0, 0, 0, 0.5),
-                    !_isCreating
-                        ? const Color.fromRGBO(0, 39, 176, 1)
-                        : const Color.fromRGBO(0, 0, 0, 0.5),
-                  ],
-                  stops: [0.1, 1.0],
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SummaryBill(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GradientButton(
+                  increaseWidthBy: 100,
+                  increaseHeightBy: MediaQuery.of(context).size.height * 0.01,
+                  child: Text('Tạo hoá đơn'),
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      !_isCreating
+                          ? const Color.fromRGBO(88, 39, 176, 1)
+                          : const Color.fromRGBO(0, 0, 0, 0.5),
+                      !_isCreating
+                          ? const Color.fromRGBO(0, 39, 176, 1)
+                          : const Color.fromRGBO(0, 0, 0, 0.5),
+                    ],
+                    stops: [0.1, 1.0],
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
+                  ),
+                  callback: () {
+                    if (!_isCreating) _cartBloc.dispatch(CreateBillFromCart());
+                  },
                 ),
-                callback: () {
-                  if (!_isCreating) _cartBloc.dispatch(CreateBillFromCart());
-                },
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

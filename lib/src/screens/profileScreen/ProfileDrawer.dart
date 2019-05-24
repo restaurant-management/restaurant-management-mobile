@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_management_mobile/src/blocs/currentUserBloc/bloc.dart';
+import 'package:restaurant_management_mobile/src/blocs/currentUserBloc/event.dart';
 import 'package:restaurant_management_mobile/src/blocs/currentUserBloc/state.dart';
+import 'package:restaurant_management_mobile/src/enums/permission.dart';
 import 'package:restaurant_management_mobile/src/models/userModel.dart';
+import 'package:restaurant_management_mobile/src/widgets/errorIndicator.dart';
 import 'package:restaurant_management_mobile/src/widgets/loadingIndicator.dart';
 
 import '../../blocs/authenticationBloc/bloc.dart';
@@ -50,7 +53,26 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
           bloc: _currentUserBloc,
           builder: (BuildContext context, state) {
             if (state is CurrentUserProfileFetched)
-              return _buildContent(state.user);
+              return _buildContent(state.user, _currentUserBloc.allPermission);
+            if (state is CurrentUserProfileFetchFailure) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ErrorIndicator(
+                    message: 'Tải thông tin thất bại!',
+                    reloadOnPressed: () {
+                      _currentUserBloc.dispatch(FetchCurrentUserProfile());
+                    },
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      widget.authenticationBloc.dispatch(LoggedOut());
+                    },
+                    child: Text('Đăng xuất'),
+                  )
+                ],
+              );
+            }
             return LoadingIndicator();
           },
         ),
@@ -58,7 +80,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
     );
   }
 
-  Widget _buildContent(UserModel user) {
+  Widget _buildContent(UserModel user, List<Permission> allPermissions) {
     return ListView(
       children: <Widget>[
         UserAccountsDrawerHeader(
@@ -84,12 +106,12 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                       child: user.avatar != null
                           ? FadeInImage.assetNetwork(
                               placeholder: 'assets/images/default-avatar.jpg',
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               image: user.avatar,
                             )
                           : Image.asset(
                               'assets/images/default-avatar.jpg',
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                             ),
                     ),
                   ),
@@ -109,18 +131,38 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
             ),
           ),
         ),
+        haveUpdateBillStatusPermission(allPermissions)
+            ? ListTile(
+                leading: Icon(
+                  Icons.assignment,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  'Danh sách hoá đơn',
+                  style: TextStyle(color: Colors.blue, fontSize: 16),
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => BillsScreen()));
+                },
+              )
+            : Container(),
         ListTile(
           leading: Icon(
-            Icons.assignment,
-            color: Colors.blue,
+            Icons.description,
+            color: Colors.pinkAccent,
           ),
           title: Text(
-            'Danh sách hoá đơn',
-            style: TextStyle(color: Colors.blue, fontSize: 16),
+            'Hoá đơn của tôi',
+            style: TextStyle(color: Colors.pinkAccent, fontSize: 16),
           ),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => BillsScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BillsScreen(
+                          isMyBill: true,
+                        )));
           },
         ),
         ListTile(
@@ -170,5 +212,15 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
         )
       ],
     );
+  }
+
+  bool haveUpdateBillStatusPermission(List<Permission> permissions) {
+    return permissions.indexOf(Permission.billManagement) >= 0 ||
+        permissions.indexOf(Permission.updateCompleteBillStatus) >= 0 ||
+        permissions.indexOf(Permission.updateDeliveringBillStatus) >= 0 ||
+        permissions.indexOf(Permission.updatePrepareDoneBillStatus) >= 0 ||
+        permissions.indexOf(Permission.updatePreparingBillStatus) >= 0 ||
+        permissions.indexOf(Permission.updateShippingBillStatus) >= 0 ||
+        permissions.indexOf(Permission.updatePaidBillStatus) >= 0;
   }
 }

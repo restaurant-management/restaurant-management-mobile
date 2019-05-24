@@ -16,12 +16,12 @@ class BillBlocFetching extends BillBlocState {
 }
 
 class BillBlocFetched extends BillBlocState {
-  final List<BillModel> listBill;
+  final List<BillModel> listBills;
 
-  BillBlocFetched(this.listBill) : super([listBill]);
+  BillBlocFetched(this.listBills) : super([listBills]);
 
   @override
-  String toString() => 'BillBlocFetched ${listBill.length} bills';
+  String toString() => 'BillBlocFetched ${listBills.length} bills';
 }
 
 class BillBlocFetchFailure extends BillBlocState {

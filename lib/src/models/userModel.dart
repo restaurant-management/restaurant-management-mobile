@@ -10,7 +10,6 @@ class UserModel extends Equatable {
   String _avatar;
   String _email;
   DateTime _birthday;
-  List<Permission> _permissions;
   String _role;
   int _point;
 
@@ -26,8 +25,6 @@ class UserModel extends Equatable {
 
   DateTime get birthday => _birthday;
 
-  List<Permission> get permissions => _permissions;
-
   String get role => _role;
 
   int get point => _point;
@@ -41,8 +38,6 @@ class UserModel extends Equatable {
     _birthday = parsedJson['birthday'] != null
         ? DateFormat('yyyy-MM-dd').parse(parsedJson['birthday'])
         : null;
-    List<String> stringPermissions = parsedJson['permissions'];
-    _permissions = Permission.fromListString(stringPermissions);
     _point = parsedJson['point'];
     _role = parsedJson['role'];
   }
@@ -54,13 +49,12 @@ class UserModel extends Equatable {
     _avatar = '';
     _email = 'email@gmail.com';
     _birthday = DateTime.now();
-    _permissions = [];
     _point = 0;
     _role = '';
   }
 
   @override
   String toString() {
-    return '{uuid: $uuid, username: $username, fullname: $fullName, email: $email, birthday: $birthday, point: $point, role: $role, permissions: $permissions}';
+    return '{uuid: $uuid, username: $username, fullname: $fullName, email: $email, birthday: $birthday, point: $point, role: $role}';
   }
 }

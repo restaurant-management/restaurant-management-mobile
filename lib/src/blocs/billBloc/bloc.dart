@@ -7,6 +7,10 @@ import 'state.dart';
 class BillBloc extends Bloc<BillBlocEvent, BillBlocState> {
   final Repository _repository = Repository();
 
+  final bool isMyBill;
+
+  BillBloc({this.isMyBill = false});
+
   @override
   BillBlocState get initialState => BillBlocInitialize();
 
@@ -15,7 +19,10 @@ class BillBloc extends Bloc<BillBlocEvent, BillBlocState> {
     if (event is FetchAllBill) {
       yield BillBlocFetching();
       try {
-        var listBill = await _repository.getAllBill();
+        var listBill;
+        if(isMyBill){
+          listBill = await _repository.getAllCurrentUserBills();
+        } else listBill = await _repository.getAllBill();
         yield BillBlocFetched(listBill);
       } catch (e) {
         yield BillBlocFetchFailure(e.toString());

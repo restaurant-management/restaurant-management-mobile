@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:restaurant_management_mobile/src/models/userModel.dart';
 
 import '../../utils/outlineText.dart';
-import 'package:restaurant_management_mobile/src/widgets/dishList/dishesList.dart';
 import '../editProfileScreen/editProfileScreen.dart';
 import 'widgets/profileTab.dart';
 
@@ -111,8 +110,10 @@ class ProfileScreenState extends State<ProfileScreen> {
             SliverFillRemaining(
               child: TabBarView(
                 children: <Widget>[
-                  ProfileTab(user: user,),
-                  DishesList(),
+                  ProfileTab(
+                    user: user,
+                  ),
+                  Container(),
                 ],
               ),
             )
@@ -127,10 +128,15 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: Hero(
         tag: "avatarHero",
         child: ClipOval(
-          child: FadeInImage.assetNetwork(
+          child: user.avatar != null
+              ? FadeInImage.assetNetwork(
                   placeholder: 'assets/images/default-avatar.jpg',
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   image: user.avatar,
+                )
+              : Image.asset(
+                  'assets/images/default-avatar.jpg',
+                  fit: BoxFit.cover,
                 ),
         ),
       ),

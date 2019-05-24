@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:restaurant_management_mobile/src/enums/permission.dart';
 import 'package:restaurant_management_mobile/src/models/billModel.dart';
 import 'package:restaurant_management_mobile/src/models/cartDishModel.dart';
 import 'package:restaurant_management_mobile/src/models/cartModel.dart';
@@ -121,12 +121,54 @@ class Repository {
     return await _billProvider.getAll(token);
   }
 
+  Future<List<BillModel>> getAllCurrentUserBills() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.getAllUserBills(token, currentUser.username);
+  }
+
   /// Return bill model.
   Future<BillModel> createBill(
       List<int> dishIds, List<int> quantities, List<int> prices) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(PrepsTokenKey);
     return await _billProvider.createBill(token, dishIds, quantities, prices);
+  }
+
+  Future<BillModel> updatePaidBillStatus(int billId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.updatePaidBillStatus(token, billId);
+  }
+
+  Future<BillModel> updatePreparingBillStatus(int billId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.updatePreparingBillStatus(token, billId);
+  }
+
+  Future<BillModel> updatePrepareDoneBillStatus(int billId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.updatePrepareDoneBillStatus(token, billId);
+  }
+
+  Future<BillModel> updateShippingBillStatus(int billId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.updateShippingBillStatus(token, billId);
+  }
+
+  Future<BillModel> updateDeliveringBillStatus(int billId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.updateDeliveringBillStatus(token, billId);
+  }
+
+  Future<BillModel> updateCompleteBillStatus(int billId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return await _billProvider.updateCompleteBillStatus(token, billId);
   }
 
   Future<BillModel> getBill(int billId) async {
@@ -208,5 +250,12 @@ class Repository {
     final token = prefs.getString(PrepsTokenKey);
     await _userProvider.changePassword(
         token, user.username, oldPassword, newPassword);
+  }
+
+  Future<List<Permission>> getAllCurrentUserPermission() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(PrepsTokenKey);
+    return _userProvider.getAllUserPermissions(_currentUser.username,
+        token: token);
   }
 }

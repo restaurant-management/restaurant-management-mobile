@@ -158,16 +158,16 @@ class EditProfileState extends State<EditProfileForm> {
                   child: _newAvatar != null
                       ? Image.file(
                           _newAvatar,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         )
                       : _oldAvatar != null
                           ? Image.network(
                               _oldAvatar,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                             )
                           : Image.asset(
                               'assets/images/default-avatar.jpg',
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                             ),
                 ),
               ),

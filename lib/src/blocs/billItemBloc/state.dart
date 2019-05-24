@@ -1,7 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_management_mobile/src/models/billDetailModel.dart';
-import 'package:restaurant_management_mobile/src/models/billModel.dart';
-import 'package:restaurant_management_mobile/src/models/dishModal.dart';
 
 abstract class BillItemState extends Equatable {
   BillItemState([List props = const []]) : super(props);
@@ -12,30 +9,27 @@ class BillItemInitialize extends BillItemState {
   String toString() => 'BillItemInitialize';
 }
 
-class BillItemFetchingData extends BillItemState {
-  final BillDetailModel billDetail;
+class BillItemUpdatingStatus extends BillItemState {
+  final String oldStatus;
+  final String newStatus;
 
-  BillItemFetchingData(this.billDetail) : super([billDetail]);
-
-  @override
-  String toString() =>
-      'BillItemFetchingData (billId: ${billDetail.billId}, dishId: ${billDetail.dishId})';
-}
-
-class BillItemFetchedData extends BillItemState {
-  final DishModal dishDetail;
-
-  BillItemFetchedData(this.dishDetail) : super([dishDetail]);
+  BillItemUpdatingStatus(this.oldStatus, this.newStatus)
+      : super([oldStatus, newStatus]);
 
   @override
-  String toString() => 'BillItemFetchedData (dishId: ${dishDetail.dishId})';
+  String toString() => 'BillItemUpdatingStatus ($oldStatus=>$newStatus)';
 }
 
-class BillItemFetchFailure extends BillItemState {
+class BillItemUpdatedStatus extends BillItemState {
+  @override
+  String toString() => 'BillItemUpdatedStatus';
+}
+
+class BillItemUpdateStatusFailure extends BillItemState {
   final String error;
 
-  BillItemFetchFailure(this.error) : super([error]);
+  BillItemUpdateStatusFailure(this.error) : super([error]);
 
   @override
-  String toString() => 'BillItemFetchFailure (error: $error)';
+  String toString() => 'BillItemUpdateStatusFailure ($error)';
 }

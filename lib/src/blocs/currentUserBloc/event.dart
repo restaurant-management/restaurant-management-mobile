@@ -8,3 +8,8 @@ class FetchCurrentUserProfile extends CurrentUserEvent {
   @override
   String toString() => 'FetchCurrentUserProfile';
 }
+
+class GetAllCurrentUserPermissions extends CurrentUserEvent {
+  @override
+  String toString() => 'GetAllCurrentUserPermissions';
+}

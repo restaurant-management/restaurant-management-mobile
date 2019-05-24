@@ -77,25 +77,29 @@ class DishItemCard extends StatelessWidget {
                   ),
                   SizedBox(
                     width: contextSize.width / 2.4,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Text(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            dailyDish.price > 0
+                                ? '${dailyDish.price} VNĐ'
+                                : '${dailyDish.dish.defaultPrice} VNĐ',
+                            style: Theme.of(context).textTheme.body1,
+                          ),
+                          SizedBox(width: 5,),
                           dailyDish.price > 0
-                              ? '${dailyDish.price} VNĐ'
-                              : '${dailyDish.dish.defaultPrice} VNĐ',
-                          style: Theme.of(context).textTheme.body1,
-                        ),
-                        dailyDish.price > 0
-                            ? Text(
-                                '${dailyDish.dish.defaultPrice} VNĐ',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough),
-                              )
-                            : Container(),
-                      ],
+                              ? Text(
+                                  '${dailyDish.dish.defaultPrice} VNĐ',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      decoration: TextDecoration.lineThrough),
+                                )
+                              : Container(),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -111,32 +115,35 @@ class DishItemCard extends StatelessWidget {
             SizedBox(
               width: contextSize.width / 2.2,
               height: 40,
-              child: FlatButton(
-                color: Colors.white,
-                splashColor: primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20)),
-                ),
-                onPressed: () {
-                  CartBloc().dispatch(AddDishIntoCart(dailyDish));
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.shopping_cart,
-                      color: primaryColor,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      'Thêm vào hoá đơn',
-                      style: TextStyle(color: primaryColor),
-                    ),
-                  ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: FlatButton(
+                  color: Colors.white,
+                  splashColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20)),
+                  ),
+                  onPressed: () {
+                    CartBloc().dispatch(AddDishIntoCart(dailyDish));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.shopping_cart,
+                        color: primaryColor,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        'Thêm vào hoá đơn',
+                        style: TextStyle(color: primaryColor),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )
