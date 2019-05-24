@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_mobile/src/blocs/cartBloc/bloc.dart';
 import 'package:restaurant_management_mobile/src/blocs/cartBloc/event.dart';
-import '../../../models/dailyDish.dart';
-import '../../dishDetailScreen/dishDetailScreen.dart';
+import 'package:restaurant_management_mobile/src/models/dailyDish.dart';
+import 'package:restaurant_management_mobile/src/screens/dishDetailScreen/dishDetailScreen.dart';
 
 class DishItemCard extends StatelessWidget {
   final DailyDish dailyDish;

@@ -7,6 +7,14 @@ import 'state.dart';
 class DailyDishBloc extends Bloc<DailyDishEvent, DailyDishState> {
   final Repository _repository = Repository();
 
+  DailyDishBloc._internal();
+
+  static DailyDishBloc _singleton = DailyDishBloc._internal();
+
+  factory DailyDishBloc(){
+    return _singleton;
+  }
+
   @override
   DailyDishState get initialState => DailyDishInitialized();
 

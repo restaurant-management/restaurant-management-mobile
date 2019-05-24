@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:restaurant_management_mobile/src/models/userModel.dart';
 
 import '../../utils/outlineText.dart';
-import '../dishesTodayScreen/widgets/dishesList.dart';
+import 'package:restaurant_management_mobile/src/widgets/dishList/dishesList.dart';
 import '../editProfileScreen/editProfileScreen.dart';
 import 'widgets/profileTab.dart';
 
