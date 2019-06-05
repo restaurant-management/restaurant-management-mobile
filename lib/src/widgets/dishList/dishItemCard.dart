@@ -41,12 +41,12 @@ class DishItemCard extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                   placeholder: 'assets/images/placeholder.png',
                   fit: BoxFit.cover,
-                  image: dailyDish.dish.images[0] ?? '',
+                  image: dailyDish.dish.images.length > 0 ? dailyDish.dish.images[0] ?? '' : '',
                   width: contextSize.width / 2.2,
                   height: contextSize.width / 2,
                 ),
               ),
-              dailyDish.price > 0
+              dailyDish.price > 0 && dailyDish.price - dailyDish.dish.defaultPrice < 0 && dailyDish.dish.defaultPrice != 0
                   ? _buildDiscount(
                       discount:
                           ((dailyDish.price - dailyDish.dish.defaultPrice) *
