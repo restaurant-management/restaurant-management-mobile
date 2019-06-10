@@ -1,19 +1,33 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:restaurant_management_mobile/src/blocs/dailyDishBloc/bloc.dart';
 import 'package:restaurant_management_mobile/src/blocs/dailyDishBloc/event.dart';
 import 'package:restaurant_management_mobile/src/blocs/dailyDishBloc/state.dart';
+import 'package:restaurant_management_mobile/src/widgets/dishList/dishesList.dart';
 import 'package:restaurant_management_mobile/src/widgets/loadingIndicator.dart';
+
 import '../../widgets/AppBars/mainAppBar.dart';
 import '../../widgets/cartButton/secondaryCartButton.dart';
 import '../../widgets/drawerScaffold.dart';
 
-import 'package:restaurant_management_mobile/src/widgets/dishList/dishesList.dart';
+class DishesTodayScreen extends StatefulWidget {
+  @override
+  _DishesTodayScreenState createState() => _DishesTodayScreenState();
+}
 
-class DishesTodayScreen extends StatelessWidget {
+class _DishesTodayScreenState extends State<DishesTodayScreen> {
   final DailyDishBloc _dailyDishBloc = DailyDishBloc();
+  RefreshController _refreshController;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshController = RefreshController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +65,18 @@ class DishesTodayScreen extends StatelessWidget {
                   ),
                 );
               }
-              return DishesList(
-                listDailyDish: state.listDailyDish,
+              return SmartRefresher(
+                enablePullDown: true,
+                header: defaultTargetPlatform == TargetPlatform.iOS
+                    ? WaterDropHeader()
+                    : WaterDropMaterialHeader(),
+                controller: _refreshController,
+                onRefresh: () {
+                  _dailyDishBloc.dispatch(FetchDailyDish());
+                },
+                child: DishesList(
+                  listDailyDish: state.listDailyDish,
+                ),
               );
             }
             if (state is DailyDishFetchFailure) {
@@ -97,5 +121,11 @@ class DishesTodayScreen extends StatelessWidget {
         )
       ]),
     );
+  }
+
+  @override
+  void dispose(){
+    _refreshController.dispose();
+    super.dispose();
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:restaurant_management_mobile/src/models/billModel.dart';
 
 class BillProvider {
@@ -12,7 +13,8 @@ class BillProvider {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': token
     };
-    final response = await client.get('$apiUrl/api/bills', headers: headers);
+    var day = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final response = await client.get('$apiUrl/api/bills?day=$day', headers: headers);
     if (response.statusCode == 200) {
       List<BillModel> result = [];
       List<dynamic> list = jsonDecode(response.body);

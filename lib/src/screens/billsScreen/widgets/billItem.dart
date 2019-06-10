@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:restaurant_management_mobile/src/blocs/billBloc/bloc.dart';
 import 'package:restaurant_management_mobile/src/blocs/billItemBloc/bloc.dart';
 import 'package:restaurant_management_mobile/src/blocs/billItemBloc/event.dart';
@@ -147,7 +148,7 @@ class BillItemState extends State<BillItem> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Bàn',
+                            'Thời gian',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: primaryColor,
@@ -156,7 +157,7 @@ class BillItemState extends State<BillItem> {
                           SizedBox(
                             height: 8,
                           ),
-                          Text('Đang phát triển!')
+                          Text(DateFormat('hh:mm dd/MM/yyyy').format(bill.day))
                         ],
                       ),
                     ),

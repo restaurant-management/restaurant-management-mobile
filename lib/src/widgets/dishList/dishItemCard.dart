@@ -41,12 +41,16 @@ class DishItemCard extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                   placeholder: 'assets/images/placeholder.png',
                   fit: BoxFit.cover,
-                  image: dailyDish.dish.images.length > 0 ? dailyDish.dish.images[0] ?? '' : '',
+                  image: dailyDish.dish.images.length > 0
+                      ? dailyDish.dish.images[0] ?? ''
+                      : '',
                   width: contextSize.width / 2.2,
                   height: contextSize.width / 2,
                 ),
               ),
-              dailyDish.price > 0 && dailyDish.price - dailyDish.dish.defaultPrice < 0 && dailyDish.dish.defaultPrice != 0
+              dailyDish.price > 0 &&
+                      dailyDish.price - dailyDish.dish.defaultPrice < 0 &&
+                      dailyDish.dish.defaultPrice != 0
                   ? _buildDiscount(
                       discount:
                           ((dailyDish.price - dailyDish.dish.defaultPrice) *
@@ -89,7 +93,9 @@ class DishItemCard extends StatelessWidget {
                                 : '${dailyDish.dish.defaultPrice} VNĐ',
                             style: Theme.of(context).textTheme.body1,
                           ),
-                          SizedBox(width: 5,),
+                          SizedBox(
+                            width: 5,
+                          ),
                           dailyDish.price > 0
                               ? Text(
                                   '${dailyDish.dish.defaultPrice} VNĐ',
@@ -115,35 +121,32 @@ class DishItemCard extends StatelessWidget {
             SizedBox(
               width: contextSize.width / 2.2,
               height: 40,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: FlatButton(
-                  color: Colors.white,
-                  splashColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                  ),
-                  onPressed: () {
-                    CartBloc().dispatch(AddDishIntoCart(dailyDish));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.shopping_cart,
-                        color: primaryColor,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        'Thêm vào hoá đơn',
-                        style: TextStyle(color: primaryColor),
-                      ),
-                    ],
-                  ),
+              child: FlatButton(
+                color: Colors.white,
+                splashColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20)),
+                ),
+                onPressed: () {
+                  CartBloc().dispatch(AddDishIntoCart(dailyDish));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.shopping_cart,
+                      color: primaryColor,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      'Thêm',
+                      style: TextStyle(color: primaryColor),
+                    ),
+                  ],
                 ),
               ),
             )
